@@ -1,0 +1,105 @@
+/* Estilo general */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../assets/fondo.png'); /* Ruta a tu imagen de fondo */
+    background-size: cover; /* La imagen cubrirá toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+/* Estilo del contenedor del formulario */
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center; /* Para centrar el texto dentro del contenedor */
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+/* Estilo del formulario */
+form {
+    display: flex;
+    flex-direction: column; /* Alinear elementos en columna */
+    align-items: center;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+    text-align: left;
+    width: 100%;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #fafafa;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: #66afe9;
+    outline: none;
+}
+
+/* Botón de registrar */
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px; /* Espacio debajo del botón */
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para el enlace de volver al login */
+form p {
+    text-align: center;
+    font-size: 14px;
+    margin: 0; /* Ajustar el margen para que el enlace esté bien alineado */
+    margin-top: 10px;
+}
+
+form a {
+    color: #007bff;
+    text-decoration: none; /* Elimina el subrayado predeterminado */
+    font-weight: bold;
+}
+
+form a:hover {
+    color: #0056b3;
+    text-decoration: underline; /* Añade subrayado al pasar el cursor */
+}
