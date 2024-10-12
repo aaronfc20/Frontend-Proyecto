@@ -7,12 +7,22 @@ const Notificaciones = () => {
 
   useEffect(() => {
     // Simulación de obtención de datos desde la base de datos
+    // const fetchCitas = async () => {
+    //   const citasDB = [
+    //     { nombre: 'Juan Pérez', motivo: 'Consulta médica', hora: '2024-10-05T17:42:00' },
+    //     { nombre: 'Ana López', motivo: 'Reunión de trabajo', hora: '2024-10-05T17:43:00' }
+    //   ];
+    //   setCitas(citasDB);
+    // };
+    // Obtener datos de citas desde el backend
     const fetchCitas = async () => {
-      const citasDB = [
-        { nombre: 'Juan Pérez', motivo: 'Consulta médica', hora: '2024-10-05T17:42:00' },
-        { nombre: 'Ana López', motivo: 'Reunión de trabajo', hora: '2024-10-05T17:43:00' }
-      ];
-      setCitas(citasDB);
+      try {
+        const response = await fetch('http://localhost:3001/api/citas'); // Ruta del backend
+        const data = await response.json();
+        setCitas(data);
+      } catch (error) {
+        console.error('Error al obtener las citas:', error);
+      }
     };
 
     fetchCitas();
