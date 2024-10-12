@@ -9,6 +9,7 @@ const DashboardDoctor = () => {
         <div className="dashboard-doctor-background">
             <div className="dashboard-doctor container">
                 <h1>Panel de Control - Doctor</h1>
+                <Notificaciones />  
                 <nav className="nav-container">
                     <NavLink to="/dashboard-doctor/search" className="nav-button" activeClassName="active">
                         Buscar Paciente
