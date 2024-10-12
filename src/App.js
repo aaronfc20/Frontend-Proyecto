@@ -13,7 +13,7 @@ function App() {
                     <Route path="/" element={<Login />} />
                     <Route path="/register" element={<Register />} /> {/* Nueva ruta de registro */}
                     <Route path="/dashboard-usuario" element={<DashboardUsuario />} />
-                    <Route path="/dashboard-doctor" element={<DashboardDoctor />} />
+                    <Route path="/dashboard-doctor/*" element={<DashboardDoctor />} /> {/* El * permite subrutas */}
                 </Routes>
             </div>
         </Router>

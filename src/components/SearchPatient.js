@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './SearchPatient.module.css';
 
 const SearchPatient = () => {
     const [nombreCompleto, setNombreCompleto] = useState('');
     const [dni, setDni] = useState('');
-    const [edad, setEdad] = useState(''); // Nuevo estado para la edad
+    const [edad, setEdad] = useState('');
     const [patients, setPatients] = useState([]);
-    const [filteredPatients, setFilteredPatients] = useState([]); // Pacientes filtrados
+    const [filteredPatients, setFilteredPatients] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [noPatientMessage, setNoPatientMessage] = useState('');
 
@@ -15,7 +16,6 @@ const SearchPatient = () => {
         setErrorMessage('');
         setNoPatientMessage('');
 
-        // Validar que al menos un campo esté completo
         if (!dni && !nombreCompleto) {
             setErrorMessage('Se necesita completar el campo de nombre completo o DNI para realizar la búsqueda.');
             return;
@@ -26,12 +26,12 @@ const SearchPatient = () => {
                 params: { nombreCompleto, dni },
             });
             setPatients(response.data);
-            setFilteredPatients(response.data); // Inicialmente, se muestran todos los pacientes
+            setFilteredPatients(response.data);
 
             if (response.data.length === 0) {
                 setNoPatientMessage('No se encontraron pacientes con esos datos.');
             } else {
-                setNoPatientMessage(''); // Limpiar el mensaje si se encontraron pacientes
+                setNoPatientMessage('');
             }
         } catch (error) {
             console.error(error);
@@ -39,13 +39,12 @@ const SearchPatient = () => {
         }
     };
 
-    // Función para filtrar pacientes por edad
     const filterPatientsByAge = () => {
         const ageNum = parseInt(edad, 10);
         if (!isNaN(ageNum)) {
             const filtered = patients.filter(patient => {
                 const patientAge = new Date().getFullYear() - new Date(patient.dateOfBirth).getFullYear();
-                return patientAge === ageNum; // Filtrar por edad exacta
+                return patientAge === ageNum;
             });
             setFilteredPatients(filtered);
             if (filtered.length === 0) {
@@ -54,7 +53,7 @@ const SearchPatient = () => {
                 setNoPatientMessage('');
             }
         } else {
-            setFilteredPatients(patients); // Si no hay edad especificada, mostrar todos
+            setFilteredPatients(patients);
         }
     };
 
@@ -88,7 +87,7 @@ const SearchPatient = () => {
                 </div>
                 <button type="submit">Buscar Paciente</button>
             </form>
-            <button onClick={filterPatientsByAge}>Filtrar por Edad</button> {/* Botón para aplicar filtro */}
+            <button onClick={filterPatientsByAge}>Filtrar por Edad</button>
 
             {errorMessage && <div className="error-message">{errorMessage}</div>}
             {noPatientMessage && <div className="no-patient-message">{noPatientMessage}</div>}

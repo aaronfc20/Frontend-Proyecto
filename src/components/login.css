@@ -1,5 +1,5 @@
-/* Estilo general */
-body {
+/* Encapsula todo dentro de .login-container para evitar que afecte a otros componentes */
+.login-container {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     margin: 0;
@@ -9,13 +9,12 @@ body {
     align-items: center;
     height: 100vh;
     background-image: url('../assets/fondo.png');
-    background-size: cover; /* La imagen cubrirá toda la pantalla */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-/* Estilo del contenedor del formulario */
-.form-container {
+.login-container .form-container {
     background-color: white;
     padding: 30px;
     border-radius: 10px;
@@ -23,31 +22,29 @@ body {
     width: 350px;
 }
 
-h2 {
+.login-container h2 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
 }
 
-/* Estilo del formulario */
-form {
+.login-container form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Estilo de las etiquetas y entradas */
-label {
+.login-container label {
     font-size: 14px;
     margin-bottom: 10px;
     color: #555;
-    width: 100%; /* Para que ocupe todo el ancho del formulario */
-    text-align: left; /* Para alinear el texto a la izquierda */
+    width: 100%;
+    text-align: left;
 }
 
-select,
-input[type="text"],
-input[type="password"] {
+.login-container select,
+.login-container input[type="text"],
+.login-container input[type="password"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -59,15 +56,14 @@ input[type="password"] {
     transition: border-color 0.3s;
 }
 
-select:focus,
-input[type="text"]:focus,
-input[type="password"]:focus {
+.login-container select:focus,
+.login-container input[type="text"]:focus,
+.login-container input[type="password"]:focus {
     border-color: #66afe9;
     outline: none;
 }
 
-/* Botón de Iniciar Sesión */
-button[type="submit"] {
+.login-container button[type="submit"] {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -80,72 +76,23 @@ button[type="submit"] {
     margin-bottom: 10px;
 }
 
-button[type="submit"]:hover {
+.login-container button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-/* Enlace para registrarse */
-form p {
+.login-container form p {
     text-align: center;
     font-size: 14px;
     margin: 0;
 }
 
-form a {
+.login-container form a {
     color: #007bff;
     text-decoration: none;
     font-weight: bold;
 }
 
-form a:hover {
+.login-container form a:hover {
     color: #0056b3;
     text-decoration: underline;
-}
-
-/* Estilo del pop-up */
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Asegúrate de que el pop-up esté encima del contenido */
-}
-
-.popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    z-index: 1001; /* Asegura que el contenido del pop-up esté sobre el fondo */
-}
-
-.popup-content h3 {
-    margin-top: 0;
-    color: #ff0000; /* Color rojo para el título del error */
-}
-
-.popup-content p {
-    font-size: 16px;
-    margin: 10px 0;
-}
-
-.popup-content button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-
-.popup-content button:hover {
-    background-color: #0056b3;
 }
