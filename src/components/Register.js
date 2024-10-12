@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom'; // Importamos Link y useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 import './register.css'; // Asegúrate de que la ruta sea correcta
-
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -10,7 +9,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('user'); // Por defecto es 'user'
     const [message, setMessage] = useState('');
-    const navigate = useNavigate(); // Hook de react-router-dom para redirigir
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,51 +38,53 @@ const Register = () => {
     };
 
     return (
-        <div className="container"> {/* Asegúrate de usar la clase container */}
-            <h2>Registro de {role === 'user' ? 'Usuario' : 'Doctor'}</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Nombre:</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>{role === 'user' ? 'DNI:' : 'Código de colegiatura:'}</label>
-                    <input
-                        type="text"
-                        value={dniOrCode}
-                        onChange={(e) => setDniOrCode(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Contraseña:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Rol:</label>
-                    <select value={role} onChange={(e) => setRole(e.target.value)}>
-                        <option value="user">Usuario</option>
-                        <option value="doctor">Doctor</option>
-                    </select>
-                </div>
-                <button type="submit">Registrar</button>
-            </form>
+        <div className="register-page"> {/* Clase específica para el registro */}
+            <div className="register-form"> {/* Clase específica para encapsular estilos */}
+                <h2>Registro de {role === 'user' ? 'Usuario' : 'Doctor'}</h2>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Nombre:</label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>{role === 'user' ? 'DNI:' : 'Código de colegiatura:'}</label>
+                        <input
+                            type="text"
+                            value={dniOrCode}
+                            onChange={(e) => setDniOrCode(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Contraseña:</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Rol:</label>
+                        <select value={role} onChange={(e) => setRole(e.target.value)}>
+                            <option value="user">Usuario</option>
+                            <option value="doctor">Doctor</option>
+                        </select>
+                    </div>
+                    <button type="submit">Registrar</button>
+                </form>
 
-            {/* Mostrar mensaje de éxito o error */}
-            {message && <p>{message}</p>}
+                {/* Mostrar mensaje de éxito o error */}
+                {message && <p>{message}</p>}
 
-            {/* Botón para volver al login */}
-            <p>¿Ya tienes una cuenta? <Link to="/">Volver al login</Link></p>
+                {/* Botón para volver al login */}
+                <p>¿Ya tienes una cuenta? <Link to="/">Volver al login</Link></p>
+            </div>
         </div>
     );
 };
