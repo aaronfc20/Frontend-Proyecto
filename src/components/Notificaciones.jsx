@@ -28,23 +28,39 @@ const Notificaciones = () => {
     fetchCitas();
   }, []);
 
+  // useEffect(() => {
+  //   citas.forEach((cita) => {
+  //     const now = new Date();
+  //     const citaDate = new Date(cita.hora);
+
+  //     // Calculamos el tiempo restante en milisegundos
+  //     const timeToNotification = citaDate.getTime() - now.getTime();
+
+  //     if (timeToNotification > 0) {
+  //       setTimeout(() => {
+  //         // Mostrar notificación
+  //         toast.info(`Tienes una cita para ${cita.motivo} con ${cita.nombre}`);
+  //       }, timeToNotification);
+  //     }
+  //   });
+  // }, [citas]);
   useEffect(() => {
     citas.forEach((cita) => {
       const now = new Date();
-      const citaDate = new Date(cita.hora);
+      const fechaHoraCita = new Date(`${cita.fecha}T${cita.hora}`);
 
-      // Calculamos el tiempo restante en milisegundos
-      const timeToNotification = citaDate.getTime() - now.getTime();
+      // Calcula el tiempo restante en milisegundos
+      const timeToNotification = fechaHoraCita.getTime() - now.getTime();
 
       if (timeToNotification > 0) {
         setTimeout(() => {
           // Mostrar notificación
-          toast.info(`Tienes una cita para ${cita.motivo} con ${cita.nombre}`);
+          toast.info(`Tienes una cita con el paciente ID ${cita.pacienteId} a las ${cita.hora}`);
         }, timeToNotification);
       }
     });
   }, [citas]);
-
+  
   return (
     <div>
       <ToastContainer />
@@ -53,3 +69,4 @@ const Notificaciones = () => {
 };
 
 export default Notificaciones;
+
