@@ -3,6 +3,8 @@ import { Routes, Route, NavLink } from 'react-router-dom';
 import SearchPatient from './SearchPatient';
 import RegisterPatient from './RegisterPatient';
 import './DashboardDoctor.css';
+import Notificaciones from './Notificaciones'; // Importar las notificaciones
+
 
 const DashboardDoctor = () => {
     return (
