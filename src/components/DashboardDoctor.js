@@ -4,11 +4,14 @@ import SearchPatient from './SearchPatient';
 import RegisterPatient from './RegisterPatient';
 import './DashboardDoctor.css';
 import CrearCita from './CrearCita';
+import Notificaciones from './Notificaciones'; // Importar las notificaciones
+
 const DashboardDoctor = () => {
     return (
         <div className="dashboard-doctor-background">
             <div className="dashboard-doctor container">
                 <h1>Panel de Control - Doctor</h1>
+                <Notificaciones />  
                 <nav className="nav-container">
                     <NavLink to="/dashboard-doctor/search" className="nav-button" activeClassName="active">
                         Buscar Paciente
