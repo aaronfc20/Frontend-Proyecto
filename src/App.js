@@ -14,6 +14,8 @@ function App() {
                     <Route path="/register" element={<Register />} /> {/* Nueva ruta de registro */}
                     <Route path="/dashboard-usuario" element={<DashboardUsuario />} />
                     <Route path="/dashboard-doctor/*" element={<DashboardDoctor />} /> {/* El * permite subrutas */}
+                    <Route path="/search" element={<SearchPatient />} />
+                    <Route path="/edit/:id" element={<EditPatient />} />
                 </Routes>
             </div>
         </Router>

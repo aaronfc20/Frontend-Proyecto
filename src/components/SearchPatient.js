@@ -103,6 +103,7 @@ const SearchPatient = () => {
                             <p><strong>Diagnóstico:</strong> {patient.diagnosis}</p>
                             <p><strong>Tratamiento:</strong> {patient.treatment}</p>
                             <p><strong>DNI:</strong> {patient.dni}</p>
+                            <button onClick={() => navigate(`/edit/${patient._id}`)}>Editar Información</button>
                             <hr />
                         </div>
                     ))}
