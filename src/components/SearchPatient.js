@@ -23,7 +23,7 @@ const SearchPatient = () => {
         }
 
         try {
-            const response = await axios.get('http://localhost:5000/patients/search', {
+            const response = await axios.get('http://localhost:3001/patients/search', {
                 params: { nombreCompleto, dni },
             });
             setPatients(response.data);

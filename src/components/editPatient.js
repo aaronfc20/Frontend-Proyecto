@@ -20,7 +20,7 @@ const EditPatient = () => {
         // Obtener los datos del paciente al cargar el componente
         const fetchPatientData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/patients/${id}`);
+                const response = await axios.get(`http://localhost:3001/patients/${id}`);
                 setFormData(response.data);
             } catch (error) {
                 console.error('Error al obtener los datos del paciente:', error);

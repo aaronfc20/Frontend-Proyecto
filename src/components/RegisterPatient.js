@@ -20,16 +20,23 @@ const RegisterPatient = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/patients', formData);
+            await axios.post('http://localhost:3001/patients', formData);
             alert('Paciente registrado exitosamente.');
             navigate('/');
         } catch (error) {
-            alert('Error al registrar el paciente: ' + error.response.data.message);
+            console.error('Error al registrar el paciente:', error); // Agregar este console.error
+            const errorMessage = error.response && error.response.data && error.response.data.message
+                ? error.response.data.message
+                : 'Error al registrar el paciente';
+            alert(errorMessage);
         }
     };
+    
 
     return (
         <div className="form-container">
