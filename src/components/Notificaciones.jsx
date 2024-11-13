@@ -17,7 +17,7 @@ const Notificaciones = () => {
     // Obtener datos de citas desde el backend
     const fetchCitas = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/citas'); // Ruta del backend
+        const response = await fetch('http://localhost:3001/citas'); // Ruta del backend
         const data = await response.json();
         setCitas(data);
       } catch (error) {

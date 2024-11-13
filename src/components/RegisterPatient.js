@@ -33,87 +33,93 @@ const RegisterPatient = () => {
 
     return (
         <div className="form-container">
-            <h2>Registrar Paciente</h2>
+            <h2 className="register-title">Registrar Paciente</h2>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>DNI</label>
+                <div className="register-form-group">
+                    <label className="register-label">DNI</label>
                     <input
                         type="text"
                         name="dni"
+                        className="register-input"
                         placeholder="Ingrese el DNI"
                         value={formData.dni}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label>Nombre Completo</label>
+                <div className="register-form-group">
+                    <label className="register-label">Nombre Completo</label>
                     <input
                         type="text"
                         name="nombreCompleto"
+                        className="register-input"
                         placeholder="Ingrese el nombre completo"
                         value={formData.nombreCompleto}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label>Fecha de Nacimiento</label>
+                <div className="register-form-group">
+                    <label className="register-label">Fecha de Nacimiento</label>
                     <input
                         type="date"
                         name="dateOfBirth"
+                        className="register-input"
                         value={formData.dateOfBirth}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label>Médico de Cabecera</label>
+                <div className="register-form-group">
+                    <label className="register-label">Médico de Cabecera</label>
                     <input
                         type="text"
                         name="doctor"
+                        className="register-input"
                         placeholder="Ingrese el médico de cabecera"
                         value={formData.doctor}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label>Especialidad</label>
+                <div className="register-form-group">
+                    <label className="register-label">Especialidad</label>
                     <input
                         type="text"
                         name="specialty"
+                        className="register-input"
                         placeholder="Ingrese la especialidad"
                         value={formData.specialty}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label>Diagnóstico</label>
+                <div className="register-form-group">
+                    <label className="register-label">Diagnóstico</label>
                     <textarea
                         name="diagnosis"
+                        className="register-textarea"
                         placeholder="Ingrese el diagnóstico"
                         value={formData.diagnosis}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label>Tratamiento</label>
+                <div className="register-form-group">
+                    <label className="register-label">Tratamiento</label>
                     <textarea
                         name="treatment"
+                        className="register-textarea"
                         placeholder="Ingrese el tratamiento"
                         value={formData.treatment}
                         onChange={handleChange}
                         required
                     />
                 </div>
-                <button type="submit">Registrar</button>
+                <button type="submit" className="register-button">Registrar</button>
             </form>
         </div>
     );
 };
 
 export default RegisterPatient;
-

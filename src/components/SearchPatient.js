@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
-import './SearchPatient.module.css';
+import './SearchPatient.css';  
 
 const SearchPatient = () => {
     const [nombreCompleto, setNombreCompleto] = useState('');
@@ -59,35 +60,38 @@ const SearchPatient = () => {
 
     return (
         <div className="search-container">
-            <h2>Buscar Paciente</h2>
+            <h2 className="search-title">Buscar Paciente</h2>
             <form onSubmit={handleSearch}>
-                <div className="form-group">
-                    <label>Nombre Completo</label>
+                <div className="search-form-group">
+                    <label className="search-label">Nombre Completo</label>
                     <input
                         type="text"
+                        className="search-input"
                         value={nombreCompleto}
                         onChange={(e) => setNombreCompleto(e.target.value)}
                     />
                 </div>
-                <div className="form-group">
-                    <label>DNI (opcional)</label>
+                <div className="search-form-group">
+                    <label className="search-label">DNI (opcional)</label>
                     <input
                         type="text"
+                        className="search-input"
                         value={dni}
                         onChange={(e) => setDni(e.target.value)}
                     />
                 </div>
-                <div className="form-group">
-                    <label>Edad (opcional)</label>
+                <div className="search-form-group">
+                    <label className="search-label">Edad (opcional)</label>
                     <input
                         type="number"
+                        className="search-input"
                         value={edad}
                         onChange={(e) => setEdad(e.target.value)}
                     />
                 </div>
-                <button type="submit">Buscar Paciente</button>
+                <button type="submit" className="search-button">Buscar Paciente</button>
             </form>
-            <button onClick={filterPatientsByAge}>Filtrar por Edad</button>
+            <button className="search-button" onClick={filterPatientsByAge}>Filtrar por Edad</button>
 
             {errorMessage && <div className="error-message">{errorMessage}</div>}
             {noPatientMessage && <div className="no-patient-message">{noPatientMessage}</div>}
@@ -103,8 +107,10 @@ const SearchPatient = () => {
                             <p><strong>Diagnóstico:</strong> {patient.diagnosis}</p>
                             <p><strong>Tratamiento:</strong> {patient.treatment}</p>
                             <p><strong>DNI:</strong> {patient.dni}</p>
-                            <button onClick={() => navigate(`/edit/${patient._id}`)}>Editar Información</button>
-                            <hr />
+                            <Link to={`/edit/${patient._id}`}>
+                                <button className="edit-button">Editar Información</button>
+                            </Link>
+                            <hr/>
                         </div>
                     ))}
                 </div>

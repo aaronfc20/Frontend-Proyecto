@@ -4,6 +4,8 @@ import Login from './components/Login';
 import DashboardUsuario from './components/DashboardUsuario';
 import DashboardDoctor from './components/DashboardDoctor';
 import Register from './components/Register'; // Asegúrate de importar el componente de registro
+import SearchPatient from './components/SearchPatient'; // Agregar la importación de SearchPatient
+import EditPatient from './components/editPatient'; // Agregar la importación de EditPatient
 
 function App() {
     return (
@@ -23,3 +25,4 @@ function App() {
 }
 
 export default App;
+

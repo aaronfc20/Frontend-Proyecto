@@ -1,0 +1,101 @@
+.search-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.search-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.search-form-group {
+    margin-bottom: 15px;
+}
+
+.search-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.search-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.error-message, .no-patient-message {
+    margin-top: 20px;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #f5c6cb;
+    text-align: center;
+}
+
+.patient-details {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #007bff;
+    border-radius: 8px;
+    background-color: #e9f7ff;
+}
+
+/* Estilo personalizado para el botón de "Editar Información" */
+.edit-button {
+    background-color: #007bff; /* Color de fondo verde */
+    color: white; /* Color del texto blanco */
+    padding: 10px 20px; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño del texto */
+    cursor: pointer; /* Cursor en forma de mano */
+    transition: background-color 0.3s ease; /* Efecto de transición al pasar el ratón */
+}
+
+.edit-button:hover {
+    background-color:  #0056b3; /* Color de fondo más oscuro al pasar el ratón */
+}
+
+.edit-button:focus {
+    outline: none; /* Sin borde de enfoque */
+}
+
+.edit-button:active {
+    background-color: #1e7e34; /* Color más oscuro al hacer clic */
+}
+
+

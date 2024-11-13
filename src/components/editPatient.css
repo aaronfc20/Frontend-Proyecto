@@ -1,0 +1,98 @@
+.edit-patient-background {
+   
+    background-image: url('../assets/fondo.png'); /* Ruta de tu imagen de fondo */
+    background-size: cover; /* Ajusta el tamaño para que ocupe todo el fondo */
+    background-position: center; /* Centra la imagen de fondo */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Asegura que ocupe toda la pantalla */
+}
+
+/* Contenedor general del formulario */
+.edit-patient-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Título centrado */
+.edit-patient-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Grupo de campos del formulario */
+.edit-patient-container .form-group {
+    margin-bottom: 20px;
+}
+
+/* Estilo de las etiquetas */
+.edit-patient-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Estilo de los inputs y textareas */
+.edit-patient-container input,
+.edit-patient-container textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Estilo cuando los inputs están en foco */
+.edit-patient-container input:focus,
+.edit-patient-container textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Estilo del botón de envío */
+.edit-patient-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilo del botón cuando el usuario pasa el cursor sobre él */
+.edit-patient-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para el textarea (para diagnóstico y tratamiento) */
+.edit-patient-container textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Estilo para mensajes de éxito o error */
+.edit-patient-container .message {
+    text-align: center;
+    color: green;
+    margin-top: 20px;
+}
+
+.edit-patient-container .error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
