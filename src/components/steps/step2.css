@@ -1,0 +1,78 @@
+.step2-container {
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.step2-container h2 {
+    color: #4A2C7D;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.stepper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.step {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #ddd;
+    color: #333;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.step.active {
+    background-color: #4A2C7D;
+    color: white;
+}
+
+.seguro-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.seguro-buttons button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.seguro-buttons button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para el botón activo (seleccionado) */
+.boton-activo {
+    background-color: #4A2C7D; /* Color de fondo diferente para indicar selección */
+    border: 2px solid #4A2C7D; /* Borde para resaltar */
+    color: white;
+}
+
+.select-seguro {
+    margin-bottom: 20px;
+}
+
+#seguro-select, #especialidad-select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.separador {
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}

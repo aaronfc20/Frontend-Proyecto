@@ -20,7 +20,7 @@
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px; /* Aumenta el ancho del cuadro */
+    width: 400px; /* Aumenta el ancho del cuadro */
     max-width: 100%; /* Asegura que no sobrepase el tamaño de la pantalla */
     min-height: 450px; /* Ajusta la altura mínima */
     margin: 20px auto; /* Centra el cuadro */
@@ -52,6 +52,9 @@
 
 .register-form input[type="text"],
 .register-form input[type="password"],
+.register-form input[type="date"],
+.register-form input[type="email"],
+.register-form input[type="tel"],
 .register-form select {
     width: 100%;
     padding: 10px;
@@ -66,6 +69,9 @@
 
 .register-form input[type="text"]:focus,
 .register-form input[type="password"]:focus,
+.register-form input[type="date"]:focus,
+.register-form input[type="email"]:focus,
+.register-form input[type="tel"]:focus,
 .register-form select:focus {
     border-color: #66afe9;
     outline: none;
@@ -90,20 +96,20 @@
 }
 
 /* Estilo para el enlace de volver al login */
-.register-form form p {
+.register-form p {
     text-align: center;
     font-size: 14px;
     margin: 0;
     margin-top: 10px;
 }
 
-.register-form form a {
+.register-form a {
     color: #007bff;
     text-decoration: none;
     font-weight: bold;
 }
 
-.register-form form a:hover {
+.register-form a:hover {
     color: #0056b3;
     text-decoration: underline;
 }

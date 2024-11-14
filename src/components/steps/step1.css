@@ -1,0 +1,45 @@
+.step1-container {
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.step1-container h2 {
+    color: #4A2C7D;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.stepper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.step {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #ddd;
+    color: #333;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.step.active {
+    background-color: #4A2C7D;
+    color: white;
+}
+
+label {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+#sede-select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}

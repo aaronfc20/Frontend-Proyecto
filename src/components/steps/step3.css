@@ -1,0 +1,42 @@
+.step3-container {
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.step3-container h2 {
+    color: #4A2C7D;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.step3-container p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-size: 18px;
+    color: #4A2C7D;
+    margin: 10px 0;
+}
+
+.date-picker {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}

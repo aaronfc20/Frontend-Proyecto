@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Importamos Link de react-router-dom
+import { Link } from 'react-router-dom';
 import './login.css';
- 
 
 const Login = () => {
     const [role, setRole] = useState('user'); // Por defecto usuario
@@ -25,11 +24,12 @@ const Login = () => {
                 dniOrCode,
                 password
             });
+            // Guardar el token y los datos del usuario en localStorage
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('user', JSON.stringify(res.data.user)); // Guardar el usuario completo
 
             // Redireccionar a los dashboards respectivos
-            const decodedToken = JSON.parse(atob(res.data.token.split('.')[1]));
-            if (decodedToken.user.role === 'doctor') {
+            if (res.data.user.role === 'doctor') {
                 window.location.href = '/dashboard-doctor';
             } else {
                 window.location.href = '/dashboard-usuario';
@@ -40,7 +40,7 @@ const Login = () => {
     };
 
     return (
-        <div className="login-container"> {/* Aplicamos la clase principal */}
+        <div className="login-container">
             <div className="form-container">
                 <h2>Iniciar Sesión</h2>
                 <form onSubmit={handleSubmit}>

@@ -6,6 +6,7 @@ import DashboardDoctor from './components/DashboardDoctor';
 import Register from './components/Register'; // Asegúrate de importar el componente de registro
 import SearchPatient from './components/SearchPatient'; // Agregar la importación de SearchPatient
 import EditPatient from './components/editPatient'; // Agregar la importación de EditPatient
+import ReservarCitaPresencial from './components/ReservarCitaPresencial';
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/dashboard-doctor/*" element={<DashboardDoctor />} /> {/* El * permite subrutas */}
                     <Route path="/search" element={<SearchPatient />} />
                     <Route path="/edit/:id" element={<EditPatient />} />
+                    <Route path="/reservar-cita-presencial" element={<ReservarCitaPresencial />} /> {/* Nueva ruta */}
                 </Routes>
             </div>
         </Router>
