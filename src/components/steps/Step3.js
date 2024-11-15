@@ -7,9 +7,10 @@ const Step3 = ({ nombre, apellidoPaterno, sede, especialidad, citasExistentes, s
     const [doctorSeleccionado, setDoctorSeleccionado] = useState(null);
     const [horariosMarcados, setHorariosMarcados] = useState({});
     const [fechaActual, setFechaActual] = useState(new Date());
-    const [diasDeslizados, setDiasDeslizados] = useState(0); // Para mover el calendario adelante o atrás
-    const [horarioSeleccionado, setHorarioSeleccionado] = useState(null); // Almacena el horario seleccionado
-    const [confirmarSeleccion, setConfirmarSeleccion] = useState(false); // Muestra el mensaje de confirmación
+    const [diasDeslizados, setDiasDeslizados] = useState(0);
+    const [horarioSeleccionado, setHorarioSeleccionado] = useState(null);
+    const [confirmarSeleccion, setConfirmarSeleccion] = useState(false);
+    const [confirmarDesmarcar, setConfirmarDesmarcar] = useState(false);
 
     const doctores = {
         "Medicina General": ["Dr. García", "Dr. Pérez"],
@@ -25,17 +26,16 @@ const Step3 = ({ nombre, apellidoPaterno, sede, especialidad, citasExistentes, s
         }
     }, [especialidad]);
 
-    // Función para obtener las fechas de los próximos 30 días (solo fechas futuras)
     const getFechasDeSemana = () => {
         let fechas = [];
         let fechaInicioSemana = new Date(fechaActual);
-        fechaInicioSemana.setDate(fechaInicioSemana.getDate() + diasDeslizados); // Ajusta el rango por el desplazamiento
+        fechaInicioSemana.setDate(fechaInicioSemana.getDate() + diasDeslizados);
 
         for (let i = 0; i < 5; i++) {
             const fecha = new Date(fechaInicioSemana);
             fecha.setDate(fecha.getDate() + i);
             if (fecha >= fechaActual) {
-                fechas.push(fecha.toLocaleDateString('es-PE')); // Formato DD/MM/YYYY
+                fechas.push(fecha.toLocaleDateString('es-PE'));
             }
         }
         return fechas;
@@ -45,45 +45,66 @@ const Step3 = ({ nombre, apellidoPaterno, sede, especialidad, citasExistentes, s
 
     const handleFechaChange = (index) => {
         setFechaSeleccionada(fechasSemana[index]);
-        setFecha(fechasSemana[index]); // Guardar la fecha seleccionada en el estado principal
+        setFecha(fechasSemana[index]);
     };
 
-    // Función para manejar la selección y deselección de horarios
     const handleHorarioSelect = (hora, dia) => {
-        if (isHorarioPasado(hora)) return; // No permitir selección si ya pasó el horario
-        setHorarioSeleccionado({ hora, dia });
-        setConfirmarSeleccion(true); // Mostrar el mensaje de confirmación
+        if (isHorarioPasado(hora, dia)) return;
+
+        const key = `${dia}_${hora}`;
+        if (horariosMarcados[key]) {
+            // Si el horario ya está marcado, mostramos la confirmación para desmarcarlo
+            setHorarioSeleccionado({ hora, dia });
+            setConfirmarDesmarcar(true);
+        } else {
+            setHorarioSeleccionado({ hora, dia });
+            setConfirmarSeleccion(true);
+        }
     };
 
     const confirmarHorario = (confirmado) => {
         if (confirmado) {
-            // Si el usuario confirma, marcar el horario seleccionado
             const key = `${horarioSeleccionado.dia}_${horarioSeleccionado.hora}`;
             setHorariosMarcados((prevState) => ({ ...prevState, [key]: true }));
-            setHora(horarioSeleccionado.hora); // Guardar la hora seleccionada
+            setHora(horarioSeleccionado.hora);
         } else {
-            // Si el usuario no confirma, desmarcar la selección
             setHorarioSeleccionado(null);
         }
-        setConfirmarSeleccion(false); // Ocultar el mensaje de confirmación
+        setConfirmarSeleccion(false);
     };
 
-    // Función para verificar si un horario ya pasó
-    const isHorarioPasado = (hora) => {
+    const confirmarDesmarcarHorario = (confirmado) => {
+        if (confirmado) {
+            const key = `${horarioSeleccionado.dia}_${horarioSeleccionado.hora}`;
+            setHorariosMarcados((prevState) => {
+                const updated = { ...prevState };
+                delete updated[key]; // Eliminar el horario marcado
+                return updated;
+            });
+        } else {
+            setHorarioSeleccionado(null);
+        }
+        setConfirmarDesmarcar(false);
+    };
+
+    const isHorarioPasado = (hora, dia) => {
         const [horaPart, minutoPart] = hora.split(':');
         const ahora = new Date();
         const horaActual = ahora.getHours();
         const minutosActuales = ahora.getMinutes();
+        const [diaPart, mesPart, anioPart] = dia.split('/');
+        const fechaSeleccionada = new Date(`${anioPart}-${mesPart}-${diaPart}T${horaPart}:${minutoPart}:00`);
 
-        if (parseInt(horaPart) < horaActual || (parseInt(horaPart) === horaActual && parseInt(minutoPart) < minutosActuales)) {
-            return true; // Ya pasó la hora
+        // Compara si la fecha seleccionada ya pasó respecto a la fecha y hora actuales
+        if (fechaSeleccionada < ahora) {
+            return true;
         }
-        return false; // Aún está disponible
+
+        return false;
     };
 
     const horas = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
-    // Desplazar los días hacia adelante o atrás
     const handleDeslizar = (direccion) => {
         if (direccion === "izquierda" && diasDeslizados > -30) {
             setDiasDeslizados(diasDeslizados - 1);
@@ -98,14 +119,12 @@ const Step3 = ({ nombre, apellidoPaterno, sede, especialidad, citasExistentes, s
             <h2>Reservar Cita - {nombre} {apellidoPaterno} - {sede}</h2>
             <p>¡Es muy fácil! Puedes reservar tu cita seleccionando la fecha y hora.</p>
 
-            {/* Controles para deslizar el calendario */}
             <div className="deslizar-container">
                 <button onClick={() => handleDeslizar("izquierda")} className="deslizar-btn">{"<"}</button>
                 <span>Calendario</span>
                 <button onClick={() => handleDeslizar("derecha")} className="deslizar-btn">{">"}</button>
             </div>
 
-            {/* Cuadrante de Horarios */}
             <div className="horarios-cuadrante">
                 <table className="table-auto w-full">
                     <thead>
@@ -123,13 +142,13 @@ const Step3 = ({ nombre, apellidoPaterno, sede, especialidad, citasExistentes, s
                                         key={diaIndex}
                                         className={`p-3 cursor-pointer border text-center 
                                             ${horariosMarcados[`${fecha}_${hora}`] ? 'bg-green-500' : ''} 
-                                            ${isHorarioPasado(hora) ? 'bg-red-500 text-white' : ''}
+                                            ${isHorarioPasado(hora, fecha) ? 'bg-red-500 text-white' : ''}
                                         `}
                                         onClick={() => handleHorarioSelect(hora, fecha)}
                                     >
                                         {hora} 
                                         {horariosMarcados[`${fecha}_${hora}`] && <span className="text-white">✓</span>}
-                                        {isHorarioPasado(hora) && <span className="text-white">✖</span>}
+                                        {isHorarioPasado(hora, fecha) && <span className="text-white">✖</span>}
                                     </td>
                                 ))}
                             </tr>
@@ -138,7 +157,6 @@ const Step3 = ({ nombre, apellidoPaterno, sede, especialidad, citasExistentes, s
                 </table>
             </div>
 
-            {/* Mensaje de Confirmación */}
             {confirmarSeleccion && (
                 <div className="confirmar-mensaje">
                     <p>¿Estás seguro de elegir este horario?</p>
@@ -147,7 +165,14 @@ const Step3 = ({ nombre, apellidoPaterno, sede, especialidad, citasExistentes, s
                 </div>
             )}
 
-            {/* Selección de Doctor */}
+            {confirmarDesmarcar && (
+                <div className="confirmar-mensaje">
+                    <p>¿Estás seguro de que no quieres este horario?</p>
+                    <button onClick={() => confirmarDesmarcarHorario(true)} className="btn btn-success">Sí</button>
+                    <button onClick={() => confirmarDesmarcarHorario(false)} className="btn btn-danger">No</button>
+                </div>
+            )}
+
             {horarioSeleccionado && (
                 <>
                     <label>Seleccione un doctor:</label>

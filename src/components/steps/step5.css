@@ -1,0 +1,50 @@
+.step5-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .pago-form {
+    background-color: #ecf0f1;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .metodo-pago {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-size: 16px;
+    color: #34495e;
+  }
+  
+  select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #bdc3c7;
+  }
+  
+  .boton-pago button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .boton-pago button:hover {
+    background-color: #2ecc71;
+  }

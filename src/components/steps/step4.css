@@ -1,63 +1,63 @@
+/* Paso 4 - Ver detalles de la cita médica */
 .step4-container {
-    padding: 20px;
-    text-align: center;
-    font-family: Arial, sans-serif;
-}
-
-.step4-container h2 {
-    color: #4A2C7D;
-    font-size: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 20px auto;
+  }
+  
+  .step4-container h2 {
+    font-size: 2rem;
+    color: #007bff;
     margin-bottom: 20px;
-}
-
-.step4-container p {
-    font-size: 16px;
+  }
+  
+  .detalles-cita {
+    width: 100%;
+    font-size: 1.2rem;
     color: #333;
-    margin-bottom: 15px;
-}
-
-.stepper {
+    margin-bottom: 30px;
+  }
+  
+  .detalles-cita p {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  .detalles-cita p span {
+    font-weight: bold;
+  }
+  
+  .boton-paso5 {
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
-}
-
-.step {
-    padding: 10px 20px;
-    margin: 0 5px;
-    background-color: #ddd;
-    color: #333;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-.step.active {
-    background-color: #4A2C7D;
-    color: white;
-}
-
-.datos-cita {
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    border-collapse: collapse;
-}
-
-.datos-cita td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-    font-size: 16px;
-}
-
-.datos-cita td:first-child {
+    margin-top: 20px;
+  }
+  
+  .boton-paso5 button {
+    padding: 12px 25px;
+    font-size: 1.2rem;
     font-weight: bold;
-    background-color: #f5f5f5;
-    color: #4A2C7D;
-}
-
-.datos-cita h3 {
-    color: #4A2C7D;
-    font-size: 20px;
-    margin-bottom: 20px;
-}
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .boton-paso5 button:hover {
+    background-color: #0056b3;
+  }
+  
+  .boton-paso5 button:active {
+    background-color: #003f7f;
+  }
+  
