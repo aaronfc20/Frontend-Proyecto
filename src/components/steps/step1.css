@@ -1,45 +1,88 @@
+/* step1.css */
+
+/* Asegurarse de que el contenedor principal tenga prioridad */
 .step1-container {
-    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    padding: 60px;
     text-align: center;
-    font-family: Arial, sans-serif;
 }
 
-.step1-container h2 {
+/* Título principal */
+.step1-container .step1-title {
     color: #4A2C7D;
-    font-size: 28px;
-    margin-bottom: 20px;
+    font-size: 80px; /* Tamaño ajustado para coincidir */
+    font-weight: bold;
+    margin-bottom: 15px;
+    line-height: 1.2; /* Ajuste de espaciado */
 }
 
+/* Barra de pasos */
 .stepper {
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
+    gap: 30px;
+    margin-bottom: 50px;
 }
 
-.step {
-    padding: 10px 20px;
-    margin: 0 5px;
-    background-color: #ddd;
+.stepper .step {
+    padding: 15px 35px;
+    font-size: 22px;
+    font-weight: bold;
     color: #333;
-    border-radius: 5px;
-    font-size: 16px;
+    background-color: #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.step.active {
+.stepper .step.active {
     background-color: #4A2C7D;
+    color: #fff;
+}
+
+.stepper .step:hover {
+    transform: scale(1.05);
+}
+
+/* Label y selector de sede */
+.step1-container .step1-label {
+    font-size: 22px;
+    font-weight: bold;
+    color: #4A2C7D;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.step1-container #sede-select {
+    width: 60%;
+    padding: 12px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.step1-container #sede-select:focus {
+    border-color: #4A2C7D;
+    outline: none;
+}
+
+/* Botón de siguiente */
+.step1-container .step1-next-button {
+    padding: 12px 25px;
+    font-size: 20px;
+    background-color:  #4A2C7D;
     color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
 }
 
-label {
-    font-size: 18px;
-    display: block;
-    margin-bottom: 10px;
-}
-
-#sede-select {
-    width: 100%;
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.step1-container .step1-next-button:hover {
+    background-color:  #4A2C7D;
+    transform: scale(1.05);
 }

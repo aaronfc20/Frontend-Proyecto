@@ -6,15 +6,15 @@ const DashboardUsuario = () => {
     const [userData, setUserData] = useState({
         nombre: '',
         apellidoPaterno: '',
-        genero: '',
+        genero: 'No especificado',
         fechaNacimiento: '',
-        peso: '',
-        altura: '',
-        tipoSangre: ''
+        peso: 'No especificado',
+        altura: 'No especificado',
+        tipoSangre: 'No especificado'
     });
     const [isEditing, setIsEditing] = useState(false); 
-    const [tipIndex, setTipIndex] = useState(0); // Estado para el índice de los tips de salud
-    const [appointments, setAppointments] = useState([]); // Estado para almacenar las citas
+    const [tipIndex, setTipIndex] = useState(0); 
+    const [appointments, setAppointments] = useState([]); 
     const navigate = useNavigate();
 
     const healthTips = [
@@ -26,38 +26,35 @@ const DashboardUsuario = () => {
     ];
 
     useEffect(() => {
-        // Obtener los datos del usuario desde localStorage
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             setUserData({
-                ...userData,
-                nombre: user.nombres,
-                apellidoPaterno: user.apellidoPaterno,
-                genero: user.genero,
-                fechaNacimiento: user.fechaNacimiento,
+                nombre: user.nombres || 'No especificado',
+                apellidoPaterno: user.apellidoPaterno || 'No especificado',
+                genero: user.genero || 'No especificado',
+                fechaNacimiento: user.fechaNacimiento || '',
+                peso: user.peso || 'No especificado',
+                altura: user.altura || 'No especificado',
+                tipoSangre: user.tipoSangre || 'No especificado'
             });
         }
     }, []);
 
-    // Cambiar el índice de tip cada 5 segundos
     useEffect(() => {
         const interval = setInterval(() => {
             setTipIndex((prevIndex) => (prevIndex + 1) % healthTips.length);
         }, 5000);
-
-        // Limpiar el intervalo al desmontar el componente
         return () => clearInterval(interval);
     }, [healthTips.length]);
 
-    // Calcular la edad a partir de la fecha de nacimiento
     const calculateAge = (fechaNacimiento) => {
+        if (!fechaNacimiento) return 'No especificada';
         const birthDate = new Date(fechaNacimiento);
         const ageDifMs = Date.now() - birthDate.getTime();
         const ageDate = new Date(ageDifMs); 
         return Math.abs(ageDate.getUTCFullYear() - 1970);
     };
 
-    // Alternar entre modos de edición y guardar
     const toggleEditMode = () => {
         if (isEditing) {
             localStorage.setItem('user', JSON.stringify({ ...userData }));
@@ -66,15 +63,8 @@ const DashboardUsuario = () => {
         setIsEditing(!isEditing);
     };
 
-    // Manejar cambios en los inputs
     const handleChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
-    };
-
-    // Agregar una nueva cita al estado
-    const addAppointment = (tipo, fecha, hora) => {
-        const newAppointment = { tipo, fecha, hora };
-        setAppointments([...appointments, newAppointment]);
     };
 
     return (
@@ -175,12 +165,10 @@ const DashboardUsuario = () => {
                 </div>
             </div>
 
-            {/* Título de la sección de citas programadas como un display */}
             <h3 className="appointments-title">
                 <i className="fas fa-calendar-alt"></i> Citas Presenciales y Teleconsultas Programadas
             </h3>
 
-            {/* Contenedor de citas */}
             <div className="appointments-section">
                 {appointments.length === 0 ? (
                     <p>No tiene citas programadas por el momento.</p>

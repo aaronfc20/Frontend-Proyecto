@@ -1,161 +1,186 @@
+/* Dashboard Container */
 #dashboard-container {
-    font-family: Arial, sans-serif;
-    padding: 40px;
+    font-family: 'Arial', sans-serif;
+    padding: 60px;
+    background-color: #f8f9fa;
     text-align: center;
 }
 
-#dashboard-title {
+/* Title and Subtitle */
+#dashboard-container #dashboard-title {
     color: #4A2C7D;
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 10px;
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
-#dashboard-subtitle {
+#dashboard-container #dashboard-subtitle {
     color: #6c757d;
-    margin-bottom: 40px;
-    font-size: 20px;
-    text-align: center;
+    font-size: 22px;
+    margin-bottom: 50px;
 }
 
-#button-group {
+/* Button Group */
+#dashboard-container #button-group {
     display: flex;
     justify-content: center;
-    gap: 25px;
-    margin-bottom: 40px;
+    gap: 30px;
+    margin-bottom: 50px;
 }
 
-.dashboard-button {
-    padding: 15px 30px;
-    background-color: #007bff;
+#dashboard-container .dashboard-button {
+    padding: 18px 35px;
+    background-color:  #4A2C7D;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 20px;
-    transition: background-color 0.3s;
+    font-size: 22px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-button:hover {
-    background-color: #0056b3;
+#dashboard-container .dashboard-button:hover {
+    background-color:  #4A2C7D;
+    transform: scale(1.05);
 }
 
-.content-container {
+/* Content Container */
+#dashboard-container .content-container {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 50px;
     align-items: flex-start;
 }
 
-.table-and-button-container {
+/* User Info Table and Button Container */
+#dashboard-container .table-and-button-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 400px;
 }
 
-#user-info-table {
-    width: 350px;
+#dashboard-container #user-info-table {
+    width: 100%;
     border-collapse: collapse;
     text-align: left;
-    font-size: 20px;
-    margin-bottom: 10px;
+    font-size: 22px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-#user-info-table th,
-#user-info-table td {
-    padding: 14px 18px;
+#dashboard-container #user-info-table th,
+#dashboard-container #user-info-table td {
+    padding: 16px 20px;
     border: 1px solid #ddd;
 }
 
-#user-info-table th {
-    background-color: #f5f5f5;
+#dashboard-container #user-info-table th {
+    background-color: #e9ecef;
     color: #333;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 22px;
 }
 
-#user-info-table td input,
-#user-info-table td select {
-    width: 95%;
-    padding: 8px;
-    font-size: 18px;
+#dashboard-container #user-info-table td input,
+#dashboard-container #user-info-table td select {
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 5px;
     box-sizing: border-box;
 }
 
-.button-container {
-    margin-top: 20px;
-}
-
-#save-button {
-    padding: 10px 20px;
-    background-color: #007bff;
+/* Save Button */
+#dashboard-container .button-container #save-button {
+    padding: 12px 25px;
+    background-color:  #4A2C7D;
     color: white;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s;
-}
-
-#save-button:hover {
-    background-color: #0056b3;
-}
-
-#health-tips {
-    width: 350px;
-    padding: 25px;
-    border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #f5f5f5;
-    text-align: left;
+    cursor: pointer;
     font-size: 20px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-#health-tips h3 {
+#dashboard-container .button-container #save-button:hover {
+    background-color:  #4A2C7D;
+    transform: scale(1.05);
+}
+
+/* Health Tips */
+#dashboard-container #health-tips {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    text-align: left;
+    font-size: 22px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#dashboard-container #health-tips h3 {
     color: #4A2C7D;
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 26px;
+    font-weight: bold;
 }
 
-#health-tips p {
+#dashboard-container #health-tips p {
     color: #333;
     font-size: 20px;
+    line-height: 1.6;
 }
 
-.appointments-title {
-    font-size: 28px; /* Tamaño tipo display */
+/* Appointments Title */
+#dashboard-container .appointments-title {
+    font-size: 30px;
     font-weight: bold;
     color: #4A2C7D;
-    margin-top: 40px;
-    margin-bottom: 10px;
-    text-align: left;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.appointments-section {
-    padding: 20px;
+/* Appointments Section */
+#dashboard-container .appointments-section {
+    padding: 25px;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 10px;
     background-color: #f5f5f5;
     text-align: left;
+    max-width: 700px;
+    margin: 0 auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.appointments-section p {
-    font-size: 18px;
+#dashboard-container .appointments-section p {
+    font-size: 20px;
     color: #6c757d;
 }
 
-.appointments-section ul {
+#dashboard-container .appointments-section ul {
     list-style-type: none;
     padding: 0;
 }
 
-.appointments-section li {
+#dashboard-container .appointments-section li {
     background-color: #ffffff;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 18px;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s;
+}
+
+#dashboard-container .appointments-section li:hover {
+    transform: scale(1.02);
 }

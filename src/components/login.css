@@ -40,14 +40,21 @@
     color: #555;
     width: 100%;
     text-align: left;
+    font-weight: bold; /* Hace que la etiqueta sea más destacada */
 }
 
-.login-container select,
+.login-container .input-container {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
 .login-container input[type="text"],
-.login-container input[type="password"] {
+.login-container input[type="password"],
+.login-container input[type="email"],
+.login-container select {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
@@ -58,7 +65,8 @@
 
 .login-container select:focus,
 .login-container input[type="text"]:focus,
-.login-container input[type="password"]:focus {
+.login-container input[type="password"]:focus,
+.login-container input[type="email"]:focus {
     border-color: #66afe9;
     outline: none;
 }
@@ -95,4 +103,49 @@
 .login-container form a:hover {
     color: #0056b3;
     text-decoration: underline;
+}
+
+/* Pop-up de error */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content h3 {
+    margin: 0 0 10px;
+    color: #d9534f; /* Color de error */
+}
+
+.popup-content p {
+    margin: 0 0 15px;
+}
+
+.popup-content button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.popup-content button:hover {
+    background-color: #c9302c;
 }

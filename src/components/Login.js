@@ -5,7 +5,7 @@ import './login.css';
 
 const Login = () => {
     const [role, setRole] = useState('user'); // Por defecto usuario
-    const [dniOrCode, setDniOrCode] = useState(''); // Almacena DNI o Código de colegiatura
+    const [dniOrCode, setDniOrCode] = useState(''); // Almacena DNI o Correo electrónico
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
@@ -16,28 +16,34 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         try {
-            // Enviar al backend según el rol seleccionado
+            // Enviar datos de inicio de sesión al backend
             const res = await axios.post('http://localhost:3001/api/auth/login', {
                 role,
                 dniOrCode,
                 password
             });
-            // Guardar el token y los datos del usuario en localStorage
+    
+            // Verificar datos recibidos
+            console.log("Datos del usuario:", res.data.user);
+    
+            // Guardar token y datos del usuario completos
             localStorage.setItem('token', res.data.token);
-            localStorage.setItem('user', JSON.stringify(res.data.user)); // Guardar el usuario completo
-
-            // Redireccionar a los dashboards respectivos
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+    
+            // Redireccionar según el rol
             if (res.data.user.role === 'doctor') {
                 window.location.href = '/dashboard-doctor';
             } else {
                 window.location.href = '/dashboard-usuario';
             }
         } catch (err) {
-            setError('Credenciales inválidas'); // Mostramos el error
+            setError('Credenciales inválidas');
         }
     };
+    
+    
 
     return (
         <div className="login-container">
@@ -62,8 +68,8 @@ const Login = () => {
                         />
                     ) : (
                         <input
-                            type="text"
-                            placeholder="Código de colegiatura"
+                            type="email" // Cambiado a email para validación automática de correo electrónico
+                            placeholder="Correo Electrónico"
                             value={dniOrCode}
                             onChange={(e) => setDniOrCode(e.target.value)}
                             required
