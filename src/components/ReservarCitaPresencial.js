@@ -1,6 +1,4 @@
-// ReservarCitaPresencial.js
 import React, { useState, useEffect } from 'react';
-
 
 import Step1 from './steps/Step1';
 import Step2 from './steps/Step2';
@@ -12,7 +10,15 @@ import './reservarcitapresencial.css';
 
 const ReservarCitaPresencial = () => {
     const [currentStep, setCurrentStep] = useState(0);
-    const [userData, setUserData] = useState({ nombre: '', apellidoPaterno: '' });
+    const [userData, setUserData] = useState({
+        nombre: '',
+        apellidoPaterno: '',
+        genero: 'No especificado',
+        fechaNacimiento: '',
+        peso: 'No especificado',
+        altura: 'No especificado',
+        tipoSangre: 'No especificado'
+    });
     const [sede, setSede] = useState('');
     const [especialidad, setEspecialidad] = useState('');
     const [doctor, setDoctor] = useState('');
@@ -22,11 +28,10 @@ const ReservarCitaPresencial = () => {
     const [tipoSeguro, setTipoSeguro] = useState('');
 
     useEffect(() => {
-        // Obtener los datos del usuario desde localStorage
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             setUserData({
-                nombre: user.nombre || 'No especificado',
+                nombre: user.nombres || 'No especificado',
                 apellidoPaterno: user.apellidoPaterno || 'No especificado',
                 genero: user.genero || 'No especificado',
                 fechaNacimiento: user.fechaNacimiento || '',
@@ -36,11 +41,14 @@ const ReservarCitaPresencial = () => {
             });
         }
     }, []);
-    
-    
 
-    const handleNextStep = () => {
-        setCurrentStep((prevStep) => prevStep + 1);
+    const handleNextStep = () => setCurrentStep((prevStep) => prevStep + 1);
+
+    const handlePrevStep = () => setCurrentStep((prevStep) => prevStep - 1);
+
+    const handleFinish = () => {
+        alert('Gracias, cita reservada.');
+        window.location.href = '/';
     };
 
     return (
@@ -64,11 +72,8 @@ const ReservarCitaPresencial = () => {
             )}
             {currentStep === 2 && (
                 <Step3
-                    nombre={userData.nombre}
-                    apellidoPaterno={userData.apellidoPaterno}
                     sede={sede}
                     especialidad={especialidad}
-                    citasExistentes={[]} // Puedes agregar citas existentes aquí
                     setDoctor={setDoctor}
                     setFecha={setFecha}
                     setHora={setHora}
@@ -76,22 +81,41 @@ const ReservarCitaPresencial = () => {
             )}
             {currentStep === 3 && (
                 <Step4
+                    doctorSeleccionado={doctor}
+                    fechaSeleccionada={fecha}
+                    horaSeleccionada={hora}
                     nombre={userData.nombre}
                     apellidoPaterno={userData.apellidoPaterno}
-                    sede={sede}
                     especialidad={especialidad}
-                    doctor={doctor}
-                    fecha={fecha}
-                    hora={hora}
-                    modoAtencion={modoAtencion}
+                    sede={sede}
                     tipoSeguro={tipoSeguro}
                 />
             )}
+            {currentStep === 4 && (
+                <Step5
+                    doctorSeleccionado={doctor}
+                    fechaSeleccionada={fecha}
+                    horaSeleccionada={hora}
+                    nombre={userData.nombre}
+                    apellidoPaterno={userData.apellidoPaterno}
+                    especialidad={especialidad}
+                    sede={sede}
+                    tipoSeguro={tipoSeguro}
+                    handleFinish={handleFinish}
+                />
+            )}
             <div className="step-buttons">
+                {currentStep > 0 && (
+                <button onClick={handlePrevStep} className="btn-prev">
+                Anterior
+                </button>
+            )}
                 {currentStep < 4 && (
-                    <button onClick={handleNextStep}>Siguiente</button>
-                )}
-            </div>
+                <button onClick={handleNextStep} className="btn-next">
+                Siguiente
+                </button>
+            )}
+                </div>
         </div>
     );
 };

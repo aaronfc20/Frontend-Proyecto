@@ -1,4 +1,3 @@
-// Step1.js
 import React, { useState } from 'react';
 import './step1.css';
 
@@ -8,23 +7,20 @@ const Step1 = ({ nombre, apellidoPaterno, setSede }) => {
     const handleSedeChange = (e) => {
         const nuevaSede = e.target.value;
         setSedeSeleccionada(nuevaSede);
-        setSede(nuevaSede); // Actualizar la sede en el componente principal
+        setSede(nuevaSede);
     };
 
     return (
         <div className="step1-container">
-            <h2>Reservar Cita - {nombre} {apellidoPaterno}</h2>
-            
-            <div className="stepper">
-                <div className="step active">Paso 1</div>
-                <div className="step">Paso 2</div>
-                <div className="step">Paso 3</div>
-                <div className="step">Paso 4</div>
-                <div className="step">Paso 5</div>
-            </div>
-            
+            <h2>
+                Reservar Cita - {nombre || 'Usuario'} {apellidoPaterno || 'Anonimo'}
+            </h2>
             <label htmlFor="sede-select">Seleccione la sede:</label>
-            <select id="sede-select" value={sedeSeleccionada} onChange={handleSedeChange}>
+            <select
+                id="sede-select"
+                value={sedeSeleccionada}
+                onChange={handleSedeChange}
+            >
                 <option value="">Seleccione un distrito</option>
                 <option value="Miraflores">Miraflores</option>
                 <option value="San Isidro">San Isidro</option>

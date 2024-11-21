@@ -49,7 +49,7 @@ p {
 
 /* Día seleccionado */
 .react-calendar__tile--active {
-  background-color: #28a745;
+  background-color: #4A2C7D;
   color: white;
 }
 
@@ -62,7 +62,7 @@ p {
 
 /* Efecto hover para días */
 .react-calendar__tile:hover {
-  background-color: #007bff;
+  background-color: #26173f;
   color: white;
   transform: scale(1.05);
 }
@@ -83,7 +83,7 @@ p {
   padding: 12px 20px;
   font-size: 16px;
   color: white;
-  background-color: #28a745;
+  background-color: #4A2C7D;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -109,7 +109,7 @@ p {
 
 /* Hover para los botones */
 .horario-btn:hover {
-  background-color: #218838;
+  background-color: #26173f;
   transform: scale(1.05);
 }
 

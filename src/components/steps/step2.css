@@ -39,7 +39,7 @@
 
 .seguro-buttons button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #4A2C7D;
     color: white;
     border: none;
     border-radius: 6px;
@@ -49,7 +49,7 @@
 }
 
 .seguro-buttons button:hover {
-    background-color: #0056b3;
+    background-color: #26173f;
 }
 
 /* Estilo para el botón activo (seleccionado) */

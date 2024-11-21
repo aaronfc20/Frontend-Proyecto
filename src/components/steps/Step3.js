@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import './step3.css';
 
@@ -6,8 +6,7 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [confirmedTime, setConfirmedTime] = useState(null);
-  const [selectedDoctor, setSelectedDoctor] = useState(''); // Doctor seleccionado
+  const [selectedDoctor, setSelectedDoctor] = useState('');
 
   const availableTimes = [
     '08:00', '09:00', '10:00', '11:00', '12:00',
@@ -58,98 +57,61 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    setSelectedTime(null);
+    setSelectedTime(null); // Reiniciar la hora al cambiar la fecha
+    setFecha(date.toISOString()); // Guardar en formato ISO
   };
 
   const handleTimeSelection = (time) => {
     setSelectedTime(time);
+    setHora(time); // Guardar directamente en el estado global
     setShowConfirmation(true);
   };
 
   const handleConfirm = () => {
-    setConfirmedTime(selectedTime);
     setShowConfirmation(false);
-    setFecha(selectedDate);
-    setHora(selectedTime);
-    setDoctor(selectedDoctor); // Guardamos el doctor seleccionado
+    setDoctor(selectedDoctor); // Enviar el doctor seleccionado al estado global
   };
 
-  const handleCancel = () => {
-    setSelectedTime(null);
-    setShowConfirmation(false);
-  };
-
-  const getDisabledTimes = (date) => {
-    const disabled = [];
-    if (date.toDateString() === currentDate.toDateString()) {
-      availableTimes.forEach((time) => {
-        const [hour, minute] = time.split(':').map(Number);
-        if (hour < currentHour || (hour === currentHour && minute <= currentMinute)) {
-          disabled.push(time);
-        }
-      });
-    }
-    return disabled;
-  };
-
-  // Filtramos los doctores de acuerdo con el distrito y la especialidad seleccionada
-  const filteredDoctors = sede && especialidad 
+  const filteredDoctors = sede && especialidad
     ? doctorsByDistrict[sede]?.[especialidad] || []
     : [];
 
   return (
     <div className="step3-container">
       <h2>Selecciona tu fecha y hora</h2>
-      <p>Selecciona una fecha para hacer tu reserva</p>
+      <p>Selecciona una fecha para hacer tu reserva:</p>
 
       <Calendar
         onChange={handleDateChange}
         value={selectedDate}
         minDate={new Date()}
-        tileClassName={({ date, view }) => {
-          if (date.toDateString() === selectedDate?.toDateString()) {
-            return 'react-calendar__tile--active';
-          }
-          if (date < currentDate) {
-            return 'react-calendar__tile--disabled';
-          }
-        }}
       />
 
       {selectedDate && (
         <div className="horarios-container">
-          <h3>Horarios disponibles para {selectedDate.toDateString()}:</h3>
+          <h3>Horarios disponibles para {selectedDate.toLocaleDateString()}:</h3>
           <div className="horarios">
-            {availableTimes.map((time) => {
-              const isDisabled = getDisabledTimes(selectedDate).includes(time);
-              return (
-                <button
-                  key={time}
-                  className={`horario-btn ${isDisabled ? 'disabled' : ''} ${selectedTime === time ? 'selected' : ''}`}
-                  onClick={() => !isDisabled && handleTimeSelection(time)}
-                  disabled={isDisabled}
-                >
-                  {time}
-                </button>
-              );
-            })}
+            {availableTimes.map((time) => (
+              <button
+                key={time}
+                className={`horario-btn ${selectedTime === time ? 'selected' : ''}`}
+                onClick={() => handleTimeSelection(time)}
+              >
+                {time}
+              </button>
+            ))}
           </div>
         </div>
       )}
 
-      {showConfirmation && (
-        <div className="confirmation-dialog">
-          <p>¿Estás seguro de seleccionar este horario: {selectedTime}?</p>
-          <button className="confirmation-btn" onClick={handleConfirm}>Sí</button>
-          <button className="confirmation-btn" onClick={handleCancel}>No</button>
-        </div>
-      )}
-
-      {confirmedTime && (
+      {selectedTime && (
         <div className="doctors-selection">
-          <h3>Selecciona un doctor para el horario {confirmedTime}:</h3>
+          <h3>Selecciona un doctor para {selectedTime}:</h3>
           {filteredDoctors.length > 0 ? (
-            <select onChange={(e) => setSelectedDoctor(e.target.value)} value={selectedDoctor}>
+            <select
+              onChange={(e) => setSelectedDoctor(e.target.value)}
+              value={selectedDoctor}
+            >
               <option value="">Selecciona un doctor</option>
               {filteredDoctors.map((doctor, index) => (
                 <option key={index} value={doctor}>{doctor}</option>
@@ -158,6 +120,13 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
           ) : (
             <p>No hay doctores disponibles para esta especialidad y distrito.</p>
           )}
+        </div>
+      )}
+
+      {showConfirmation && (
+        <div className="confirmation-dialog">
+          <p>¿Confirmas el horario {selectedTime} con el doctor {selectedDoctor}?</p>
+          <button onClick={handleConfirm} className="confirmation-btn">Confirmar</button>
         </div>
       )}
     </div>

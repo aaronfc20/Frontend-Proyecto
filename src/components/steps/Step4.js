@@ -1,5 +1,5 @@
-// Step4.js
 import React from 'react';
+import './step4.css';
 
 const Step4 = ({
     doctorSeleccionado,
@@ -9,48 +9,50 @@ const Step4 = ({
     apellidoPaterno,
     especialidad,
     sede,
-    tipoSeguro
+    tipoSeguro,
 }) => {
+    // Formatear fecha seleccionada
+    const formattedFecha = fechaSeleccionada
+        ? new Date(fechaSeleccionada).toLocaleDateString()
+        : 'No seleccionada';
+
     return (
         <div className="step4-container">
-            <h2>Resumen de la Cita - {nombre} {apellidoPaterno}</h2>
-            <p>Revisa los detalles de tu cita antes de confirmarla.</p>
+            <h2 className="step4-title">Resumen de la Cita - {nombre} {apellidoPaterno} - {sede || 'No seleccionada'}</h2>
+            <p className="step4-description">
+                Revisa los detalles de tu cita antes de confirmarla.
+            </p>
 
-            <div className="resumen-cita">
-                <div className="campo">
-                    <strong>Especialidad:</strong> {especialidad || 'No seleccionada'}
-                </div>
-                <div className="campo">
-                    <strong>Sede:</strong> {sede || 'No seleccionada'}
-                </div>
-                <div className="campo">
-                    <strong>Fecha de la cita:</strong> {fechaSeleccionada || 'No seleccionada'}
-                </div>
-                <div className="campo">
-                    <strong>Hora:</strong> {horaSeleccionada || 'No seleccionada'}
-                </div>
-                <div className="campo">
-                    <strong>Doctor:</strong> {doctorSeleccionado || 'No seleccionado'}
-                </div>
-                <div className="campo">
-                    <strong>Tipo de Seguro:</strong> {tipoSeguro || 'No especificado'}
-                </div>
-            </div>
-
-            <div className="botones">
-                <button onClick={() => alert("¡Cita confirmada!")} className="btn btn-confirmar">
-                    Confirmar Cita
-                </button>
-                <button onClick={() => alert("¡Cita cancelada!")} className="btn btn-cancelar">
-                    Cancelar Cita
-                </button>
-            </div>
+            <table className="step4-table">
+                <tbody>
+                    <tr>
+                        <th>Especialidad</th>
+                        <td>{especialidad || 'No seleccionada'}</td>
+                    </tr>
+                    <tr>
+                        <th>Sede</th>
+                        <td>{sede || 'No seleccionada'}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de la cita</th>
+                        <td>{formattedFecha}</td>
+                    </tr>
+                    <tr>
+                        <th>Hora</th>
+                        <td>{horaSeleccionada || 'No seleccionada'}</td>
+                    </tr>
+                    <tr>
+                        <th>Doctor</th>
+                        <td>{doctorSeleccionado || 'No seleccionado'}</td>
+                    </tr>
+                    <tr>
+                        <th>Tipo de Seguro</th>
+                        <td>{tipoSeguro || 'No especificado'}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     );
 };
 
 export default Step4;
-
-
-
-
