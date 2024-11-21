@@ -25,20 +25,41 @@ const DashboardUsuario = () => {
         "Bebe suficiente agua: Mantente hidratado tomando alrededor de 8 vasos de agua al día para un óptimo funcionamiento del cuerpo"
     ];
 
+    const toggleEditMode = () => {
+        if (isEditing) {
+            const updatedUserData = {
+                ...userData,
+                nombres: userData.nombre || 'No especificado', // Guardar como `nombres` en localStorage
+            };
+    
+            localStorage.setItem('user', JSON.stringify(updatedUserData));
+            console.log('Guardado en localStorage:', updatedUserData); // Debug para verificar
+            alert('Datos guardados exitosamente');
+        }
+        setIsEditing(!isEditing);
+    };
+    
+    const handleChange = (e) => {
+        setUserData({ ...userData, [e.target.name]: e.target.value });
+    };
+    
+    
+
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
+        console.log('Datos cargados desde localStorage:', user); // Debug para verificar los datos
         if (user) {
             setUserData({
-                nombre: user.nombres || 'No especificado',
+                nombre: user.nombres || 'No especificado', // Cambiar a `nombres`
                 apellidoPaterno: user.apellidoPaterno || 'No especificado',
                 genero: user.genero || 'No especificado',
                 fechaNacimiento: user.fechaNacimiento || '',
                 peso: user.peso || 'No especificado',
                 altura: user.altura || 'No especificado',
-                tipoSangre: user.tipoSangre || 'No especificado'
+                tipoSangre: user.tipoSangre || 'No especificado',
             });
         }
-    }, []);
+    }, []);;
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -55,17 +76,8 @@ const DashboardUsuario = () => {
         return Math.abs(ageDate.getUTCFullYear() - 1970);
     };
 
-    const toggleEditMode = () => {
-        if (isEditing) {
-            localStorage.setItem('user', JSON.stringify({ ...userData }));
-            alert('Datos guardados exitosamente');
-        }
-        setIsEditing(!isEditing);
-    };
-
-    const handleChange = (e) => {
-        setUserData({ ...userData, [e.target.name]: e.target.value });
-    };
+    
+    
 
     return (
         <div id="dashboard-container">
