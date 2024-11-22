@@ -212,8 +212,10 @@ const DashboardUsuario = () => {
                     <ul>
                         {appointments.map((appointment, index) => (
                             <li key={index} className="appointment-summary">
+                                <strong>Médico:</strong> {appointment.medico} <br />
                                 <strong>Especialidad:</strong> {appointment.especialidad} <br />
-                                <strong>Tipo:</strong> {appointment.tipoSeguro} <br />
+                                <strong>Sede:</strong> {appointment.sede} <br />
+                                <strong>Tipo:</strong> {appointment.tipoSeguro || 'No especificado'} <br />
                                 <strong>Fecha:</strong> {new Date(appointment.fecha).toLocaleDateString()} <br />
                                 <strong>Hora:</strong> {appointment.hora} <br />
                                 <strong>Estado:</strong> {appointment.estado} <br />
