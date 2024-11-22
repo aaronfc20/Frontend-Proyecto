@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import './step3.css';
 
@@ -6,75 +6,52 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState('');
+  const [selectedDoctor, setSelectedDoctor] = useState(null); // Ahora almacena el objeto del doctor
+  const [doctors, setDoctors] = useState([]); // Lista de doctores desde el backend
 
   const availableTimes = [
     '08:00', '09:00', '10:00', '11:00', '12:00',
-    '13:00', '14:00', '15:00', '16:00', '17:00'
+    '13:00', '14:00', '15:00', '16:00', '17:00',
   ];
 
-  const doctorsByDistrict = {
-    "Miraflores": {
-      "Medicina General": ["Dr. García", "Dr. Pérez"],
-      "Pediatría": ["Dra. Ramírez", "Dr. López"],
-      "Cardiología": ["Dr. Hernández", "Dra. Morales"],
-      "Dermatología": ["Dr. Rivera", "Dra. Torres"],
-      "Neurología": ["Dra. Castillo", "Dr. Vargas"]
-    },
-    "San Isidro": {
-      "Medicina General": ["Dr. Mendoza", "Dr. Torres"],
-      "Pediatría": ["Dra. Ortiz", "Dr. Guzmán"],
-      "Cardiología": ["Dr. Vega", "Dra. Sánchez"],
-      "Dermatología": ["Dra. Núñez", "Dr. Carrasco"],
-      "Neurología": ["Dr. Esteban", "Dra. Paredes"]
-    },
-    "Surco": {
-      "Medicina General": ["Dr. Blanco", "Dra. Rojas"],
-      "Pediatría": ["Dra. Morales", "Dr. Soto"],
-      "Cardiología": ["Dr. Ruiz", "Dra. Cáceres"],
-      "Dermatología": ["Dr. Huerta", "Dra. Lara"],
-      "Neurología": ["Dra. Montoya", "Dr. Valdez"]
-    },
-    "San Borja": {
-      "Medicina General": ["Dr. Silva", "Dra. Campos"],
-      "Pediatría": ["Dr. Delgado", "Dra. Romero"],
-      "Cardiología": ["Dra. Suárez", "Dr. Robles"],
-      "Dermatología": ["Dra. Jiménez", "Dr. Poma"],
-      "Neurología": ["Dr. Oliva", "Dra. Meza"]
-    },
-    "La Molina": {
-      "Medicina General": ["Dr. Sánchez", "Dra. Torres"],
-      "Pediatría": ["Dra. Reyes", "Dr. Ramírez"],
-      "Cardiología": ["Dr. León", "Dra. Vargas"],
-      "Dermatología": ["Dr. Moreno", "Dra. Vega"],
-      "Neurología": ["Dra. Castillo", "Dr. Chávez"]
+  // Llamada al backend para obtener los doctores filtrados
+  useEffect(() => {
+    if (sede && especialidad) {
+      fetch(`http://localhost:3001/api/medicos/filtrar?sede=${sede}&especialidad=${especialidad}`)
+        .then((response) => response.json())
+        .then((data) => setDoctors(data))
+        .catch((error) => console.error('Error al cargar doctores:', error));
     }
-  };
+  }, [sede, especialidad]);
 
-  const currentDate = new Date();
-  const currentHour = currentDate.getHours();
-  const currentMinute = currentDate.getMinutes();
-
+  // Maneja el cambio de fecha
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setSelectedTime(null); // Reiniciar la hora al cambiar la fecha
     setFecha(date.toISOString()); // Guardar en formato ISO
   };
 
+  // Maneja la selección de horario
   const handleTimeSelection = (time) => {
     setSelectedTime(time);
     setHora(time); // Guardar directamente en el estado global
-    setShowConfirmation(true);
+    setShowConfirmation(false); // Ocultar confirmación si se cambia el horario
   };
 
+  // Maneja la selección del doctor
+  const handleDoctorSelection = (doctorId) => {
+    const doctor = doctors.find((doc) => doc.id === parseInt(doctorId, 10));
+    setSelectedDoctor(doctor);
+  };
+
+  // Maneja la confirmación final
   const handleConfirm = () => {
-    setShowConfirmation(false);
-    setDoctor(selectedDoctor); // Enviar el doctor seleccionado al estado global
+    setDoctor(selectedDoctor); // Enviar el objeto completo del doctor al estado global
+    setShowConfirmation(false); // Ocultar cuadro de confirmación
+    alert(
+      `Cita confirmada para el ${selectedDate.toLocaleDateString()} a las ${selectedTime} con el Dr. ${selectedDoctor.nombres} ${selectedDoctor.apellidoPaterno}.`
+    );
   };
-
-  const filteredDoctors = sede && especialidad
-    ? doctorsByDistrict[sede]?.[especialidad] || []
-    : [];
 
   return (
     <div className="step3-container">
@@ -87,6 +64,7 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
         minDate={new Date()}
       />
 
+      {/* Mostrar horarios disponibles */}
       {selectedDate && (
         <div className="horarios-container">
           <h3>Horarios disponibles para {selectedDate.toLocaleDateString()}:</h3>
@@ -104,29 +82,38 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
         </div>
       )}
 
+      {/* Mostrar selección de doctores */}
       {selectedTime && (
         <div className="doctors-selection">
           <h3>Selecciona un doctor para {selectedTime}:</h3>
-          {filteredDoctors.length > 0 ? (
+          {doctors.length > 0 ? (
             <select
-              onChange={(e) => setSelectedDoctor(e.target.value)}
-              value={selectedDoctor}
+              onChange={(e) => handleDoctorSelection(e.target.value)}
+              value={selectedDoctor?.id || ''}
             >
               <option value="">Selecciona un doctor</option>
-              {filteredDoctors.map((doctor, index) => (
-                <option key={index} value={doctor}>{doctor}</option>
+              {doctors.map((doctor) => (
+                <option key={doctor.id} value={doctor.id}>
+                  {doctor.nombres} {doctor.apellidoPaterno} {doctor.apellidoMaterno}
+                </option>
               ))}
             </select>
           ) : (
-            <p>No hay doctores disponibles para esta especialidad y distrito.</p>
+            <p>No hay doctores disponibles para esta especialidad y sede seleccionadas.</p>
           )}
         </div>
       )}
 
-      {showConfirmation && (
+      {/* Mostrar cuadro de confirmación */}
+      {selectedDoctor && selectedTime && (
         <div className="confirmation-dialog">
-          <p>¿Confirmas el horario {selectedTime} con el doctor {selectedDoctor}?</p>
-          <button onClick={handleConfirm} className="confirmation-btn">Confirmar</button>
+          <p>
+            ¿Confirmas el horario {selectedTime} con el Dr.{' '}
+            {selectedDoctor.nombres} {selectedDoctor.apellidoPaterno}?
+          </p>
+          <button onClick={handleConfirm} className="confirmation-btn">
+            Confirmar
+          </button>
         </div>
       )}
     </div>
@@ -134,6 +121,3 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
 };
 
 export default Step3;
-
-
-

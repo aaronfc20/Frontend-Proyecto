@@ -16,9 +16,16 @@ const Step4 = ({
         ? new Date(fechaSeleccionada).toLocaleDateString()
         : 'No seleccionada';
 
+    // Asegurarse de que el doctorSeleccionado tiene los campos necesarios
+    const doctorNombreCompleto = doctorSeleccionado
+        ? `${doctorSeleccionado.nombres} ${doctorSeleccionado.apellidoPaterno} ${doctorSeleccionado.apellidoMaterno}`
+        : 'No seleccionado';
+
     return (
         <div className="step4-container">
-            <h2 className="step4-title">Resumen de la Cita - {nombre} {apellidoPaterno} - {sede || 'No seleccionada'}</h2>
+            <h2 className="step4-title">
+                Resumen de la Cita - {nombre} {apellidoPaterno} - {sede || 'No seleccionada'}
+            </h2>
             <p className="step4-description">
                 Revisa los detalles de tu cita antes de confirmarla.
             </p>
@@ -43,7 +50,7 @@ const Step4 = ({
                     </tr>
                     <tr>
                         <th>Doctor</th>
-                        <td>{doctorSeleccionado || 'No seleccionado'}</td>
+                        <td>{doctorNombreCompleto}</td>
                     </tr>
                     <tr>
                         <th>Tipo de Seguro</th>

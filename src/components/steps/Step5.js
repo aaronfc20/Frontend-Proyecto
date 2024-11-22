@@ -1,30 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import './step5.css';
 
-const Step5 = () => {
+const Step5 = ({
+    nombre,
+    apellidoPaterno,
+    doctorSeleccionado,
+    fechaSeleccionada,
+    horaSeleccionada,
+    especialidad,
+    sede,
+    tipoSeguro,
+    handleFinish,
+}) => {
     const [cardData, setCardData] = useState({
         cvc: '',
         expiry: '',
         name: '',
-        number: ''
+        number: '',
     });
+
+    const [pacienteId, setPacienteId] = useState(null);
+
+    useEffect(() => {
+        // Obtener pacienteId del usuario logueado
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.id) {
+            setPacienteId(user.id); // Asegúrate de que el ID del usuario esté disponible
+        }
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCardData({ ...cardData, [name]: value });
     };
 
-    const handlePayNow = () => {
-        alert('Pago realizado exitosamente');
-        window.location.href = '/dashboard-usuario';
+    // Función para guardar la cita en el backend
+    const guardarCita = async (metodoPago) => {
+        if (!pacienteId) {
+            alert('No se pudo identificar al usuario. Por favor, inicia sesión nuevamente.');
+            return;
+        }
+    
+        const citaData = {
+            pacienteId,
+            doctorId: doctorSeleccionado, // Asegúrate de que doctorSeleccionado sea el ID correcto del doctor
+            fecha: fechaSeleccionada,
+            hora: horaSeleccionada,
+            especialidad,
+            sede,
+            tipoSeguro,
+            metodoPago,
+        };
+    
+        try {
+            const response = await fetch('http://localhost:3001/citas/registrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(citaData),
+            });
+    
+            if (response.ok) {
+                alert('¡Cita guardada exitosamente!');
+                handleFinish(); // Redirige o finaliza el proceso
+            } else {
+                const errorData = await response.json();
+                console.error('Error al guardar la cita:', errorData);
+                alert(`Hubo un problema al guardar la cita: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error('Error en la conexión al backend:', error);
+            alert('No se pudo conectar con el servidor. Por favor, revisa tu conexión.');
+        }
     };
 
-    const handlePayLater = () => {
-        alert('Gracias, cita reservada');
-        window.location.href = '/dashboard-usuario';
-    };
+    const handlePayNow = () => guardarCita('pago_online');
+
+    const handlePayLater = () => guardarCita('pago_dia_cita');
 
     return (
         <div className="step5-container">
