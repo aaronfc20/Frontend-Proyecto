@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import './step3.css';
 
-const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
+const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora, tipoCita }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState(null); // Ahora almacena el objeto del doctor
-  const [doctors, setDoctors] = useState([]); // Lista de doctores desde el backend
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [doctors, setDoctors] = useState([]);
 
   const availableTimes = [
     '08:00', '09:00', '10:00', '11:00', '12:00',
@@ -16,38 +15,43 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
 
   // Llamada al backend para obtener los doctores filtrados
   useEffect(() => {
-    if (sede && especialidad) {
-      fetch(`http://localhost:3001/api/medicos/filtrar?sede=${sede}&especialidad=${especialidad}`)
-        .then((response) => response.json())
-        .then((data) => setDoctors(data))
-        .catch((error) => console.error('Error al cargar doctores:', error));
+    let url = `http://localhost:3001/api/medicos/filtrar?especialidad=${especialidad}`;
+    if (tipoCita === 'presencial') {
+        url += `&sede=${sede}`; // Solo filtrar por sede si es cita presencial
     }
-  }, [sede, especialidad]);
 
-  // Maneja el cambio de fecha
+    console.log('URL generada:', url); // DEBUG: Verifica la URL generada
+
+    if (especialidad) {
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Doctores recibidos:', data); // DEBUG: Verifica la respuesta del backend
+                setDoctors(data);
+            })
+            .catch((error) => console.error('Error al cargar doctores:', error));
+    }
+  }, [sede, especialidad, tipoCita]);
+
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    setSelectedTime(null); // Reiniciar la hora al cambiar la fecha
-    setFecha(date.toISOString()); // Guardar en formato ISO
+    setSelectedTime(null);
+    setFecha(date.toISOString());
   };
 
-  // Maneja la selección de horario
   const handleTimeSelection = (time) => {
     setSelectedTime(time);
-    setHora(time); // Guardar directamente en el estado global
-    setShowConfirmation(false); // Ocultar confirmación si se cambia el horario
+    setHora(time);
   };
 
-  // Maneja la selección del doctor
   const handleDoctorSelection = (doctorId) => {
     const doctor = doctors.find((doc) => doc.id === parseInt(doctorId, 10));
     setSelectedDoctor(doctor);
   };
 
-  // Maneja la confirmación final
   const handleConfirm = () => {
-    setDoctor(selectedDoctor); // Enviar el objeto completo del doctor al estado global
-    setShowConfirmation(false); // Ocultar cuadro de confirmación
+    setDoctor(selectedDoctor);
     alert(
       `Cita confirmada para el ${selectedDate.toLocaleDateString()} a las ${selectedTime} con el Dr. ${selectedDoctor.nombres} ${selectedDoctor.apellidoPaterno}.`
     );
@@ -99,7 +103,10 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora }) => {
               ))}
             </select>
           ) : (
-            <p>No hay doctores disponibles para esta especialidad y sede seleccionadas.</p>
+            <p>
+              No hay doctores disponibles para esta especialidad{' '}
+              {tipoCita === 'presencial' ? 'y sede seleccionadas' : 'seleccionada'}.
+            </p>
           )}
         </div>
       )}

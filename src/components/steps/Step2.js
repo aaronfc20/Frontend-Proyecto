@@ -1,8 +1,15 @@
-// Step2.js
 import React, { useState } from 'react';
 import './step2.css';
 
-const Step2 = ({ nombre, apellidoPaterno, sede, setEspecialidad, setModoAtencion, setTipoSeguro }) => {
+const Step2 = ({
+    nombre,
+    apellidoPaterno,
+    sede,
+    setEspecialidad,
+    setModoAtencion,
+    setTipoSeguro,
+    isTeleconsulta, // Propiedad adicional para identificar el tipo de cita
+}) => {
     const [mostrarSelectSeguro, setMostrarSelectSeguro] = useState(false);
     const [botonSeleccionado, setBotonSeleccionado] = useState(''); // Estado para controlar el botón seleccionado
 
@@ -28,8 +35,11 @@ const Step2 = ({ nombre, apellidoPaterno, sede, setEspecialidad, setModoAtencion
 
     return (
         <div className="step2-container">
-            <h2>Reservar Cita - {nombre} {apellidoPaterno} - {sede}</h2>
-            
+            <h2>
+                Reservar Cita - {nombre} {apellidoPaterno}{' '}
+                {!isTeleconsulta && `- ${sede}`}
+            </h2>
+
             <div className="stepper">
                 <div className="step">Paso 1</div>
                 <div className="step active">Paso 2</div>
@@ -37,17 +47,17 @@ const Step2 = ({ nombre, apellidoPaterno, sede, setEspecialidad, setModoAtencion
                 <div className="step">Paso 4</div>
                 <div className="step">Paso 5</div>
             </div>
-            
+
             <p>¿Cuenta con seguro?</p>
             <div className="seguro-buttons">
-                <button 
-                    onClick={() => handleSeguroClick('conSeguro')} 
+                <button
+                    onClick={() => handleSeguroClick('conSeguro')}
                     className={botonSeleccionado === 'conSeguro' ? 'boton-activo' : ''}
                 >
                     SÍ, CUENTO CON SEGURO
                 </button>
-                <button 
-                    onClick={() => handleSeguroClick('particular')} 
+                <button
+                    onClick={() => handleSeguroClick('particular')}
                     className={botonSeleccionado === 'particular' ? 'boton-activo' : ''}
                 >
                     PARTICULAR

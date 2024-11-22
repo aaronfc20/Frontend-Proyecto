@@ -10,11 +10,14 @@ const DashboardUsuario = () => {
         fechaNacimiento: '',
         peso: 'No especificado',
         altura: 'No especificado',
-        tipoSangre: 'No especificado'
+        tipoSangre: 'No especificado',
     });
     const [isEditing, setIsEditing] = useState(false);
     const [tipIndex, setTipIndex] = useState(0);
-    const [appointments, setAppointments] = useState([]);
+    const [appointments, setAppointments] = useState({
+        presenciales: [],
+        teleconsultas: []
+    });
     const navigate = useNavigate();
 
     const healthTips = [
@@ -22,7 +25,7 @@ const DashboardUsuario = () => {
         "Realiza actividad física diaria: Intenta hacer al menos 30 minutos de ejercicio al día, como caminar, correr o hacer yoga",
         "Duerme bien todas las noches: Dormir entre 7 y 8 horas ayuda a tu cuerpo a recuperarse y mejora tu concentración",
         "Gestiona el estrés con respiración profunda: Practicar técnicas de relajación como la respiración profunda ayuda a reducir el estrés diario",
-        "Bebe suficiente agua: Mantente hidratado tomando alrededor de 8 vasos de agua al día para un óptimo funcionamiento del cuerpo"
+        "Bebe suficiente agua: Mantente hidratado tomando alrededor de 8 vasos de agua al día para un óptimo funcionamiento del cuerpo",
     ];
 
     const toggleEditMode = () => {
@@ -79,7 +82,7 @@ const DashboardUsuario = () => {
                 console.error('No se encontró un usuario válido en localStorage.');
                 return;
             }
-        
+
             try {
                 const response = await fetch(`http://localhost:3001/citas/usuario/${user.id}`, {
                     method: 'GET',
@@ -88,9 +91,16 @@ const DashboardUsuario = () => {
                     },
                 });
                 const data = await response.json();
-        
+
                 if (response.ok) {
-                    setAppointments(data);
+                    // Filtrar citas
+                    const citasPresenciales = data.filter(appointment => appointment.sede && appointment.sede !== 'Teleconsulta');
+                    const teleconsultas = data.filter(appointment => !appointment.sede || appointment.sede === 'Teleconsulta');
+
+                    setAppointments({
+                        presenciales: citasPresenciales,
+                        teleconsultas: teleconsultas,
+                    });
                 } else {
                     console.error('Error al obtener las citas:', data.message);
                 }
@@ -98,7 +108,6 @@ const DashboardUsuario = () => {
                 console.error('Error de conexión:', error);
             }
         };
-        
 
         fetchAppointments();
     }, []);
@@ -107,7 +116,7 @@ const DashboardUsuario = () => {
         <div id="dashboard-container">
             <h2 id="dashboard-title">¡Bienvenido {userData.nombre} {userData.apellidoPaterno}!</h2>
             <p id="dashboard-subtitle">Aquí podrás reservar, pagar tus citas presenciales o teleconsultas, y acceder a tu información de manera fácil y segura.</p>
-
+    
             <div id="button-group">
                 <button onClick={() => navigate('/reservar-cita-presencial')} className="dashboard-button">
                     Reservar Cita Presencial
@@ -116,7 +125,7 @@ const DashboardUsuario = () => {
                     Reservar Teleconsulta
                 </button>
             </div>
-
+    
             <div className="content-container">
                 <div className="table-and-button-container">
                     <table id="user-info-table">
@@ -187,45 +196,73 @@ const DashboardUsuario = () => {
                             </tr>
                         </tbody>
                     </table>
-
+    
                     <div className="button-container">
                         <button onClick={toggleEditMode} id="save-button">
                             {isEditing ? 'Guardar Cambios' : 'Editar'}
                         </button>
                     </div>
                 </div>
-
+    
                 <div id="health-tips">
                     <h3>Tips de Salud</h3>
                     <p>{healthTips[tipIndex]}</p>
                 </div>
             </div>
-
-            <h3 className="appointments-title">
-                <i className="fas fa-calendar-alt"></i> Citas Presenciales y Teleconsultas Programadas
-            </h3>
-
-            <div className="appointments-section">
-                {appointments.length === 0 ? (
-                    <p>No tiene citas programadas por el momento.</p>
-                ) : (
-                    <ul>
-                        {appointments.map((appointment, index) => (
-                            <li key={index} className="appointment-summary">
-                                <strong>Médico:</strong> {appointment.medico} <br />
-                                <strong>Especialidad:</strong> {appointment.especialidad} <br />
-                                <strong>Sede:</strong> {appointment.sede} <br />
-                                <strong>Tipo:</strong> {appointment.tipoSeguro || 'No especificado'} <br />
-                                <strong>Fecha:</strong> {new Date(appointment.fecha).toLocaleDateString()} <br />
-                                <strong>Hora:</strong> {appointment.hora} <br />
-                                <strong>Estado:</strong> {appointment.estado} <br />
-                            </li>
-                        ))}
-                    </ul>
-                )}
+    
+            {/* Títulos fuera del contenedor */}
+            <div className="appointments-titles">
+                <h3 className="appointments-title">Citas Presenciales Programadas</h3>
+                <h3 className="appointments-title">Teleconsultas Programadas</h3>
+            </div>
+    
+            {/* Citas */}
+            <div className="appointments-wrapper">
+                {/* Citas Presenciales */}
+                <div className="appointments-column">
+                    {appointments.presenciales.length === 0 ? (
+                        <p>No tiene citas presenciales programadas.</p>
+                    ) : (
+                        <ul>
+                            {appointments.presenciales.map((appointment, index) => (
+                                <li key={index} className="appointment-summary">
+                                    <strong>Médico:</strong> {appointment.medico} <br />
+                                    <strong>Especialidad:</strong> {appointment.especialidad} <br />
+                                    <strong>Sede:</strong> {appointment.sede} <br />
+                                    <strong>Tipo:</strong> {appointment.tipoSeguro || 'No especificado'} <br />
+                                    <strong>Fecha:</strong> {new Date(appointment.fecha).toLocaleDateString()} <br />
+                                    <strong>Hora:</strong> {appointment.hora} <br />
+                                    <strong>Estado:</strong> {appointment.estado} <br />
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+    
+                {/* Teleconsultas */}
+                <div className="appointments-column">
+                    {appointments.teleconsultas.length === 0 ? (
+                        <p>No tiene teleconsultas programadas.</p>
+                    ) : (
+                        <ul>
+                            {appointments.teleconsultas.map((appointment, index) => (
+                                <li key={index} className="appointment-summary">
+                                    <strong>Médico:</strong> {appointment.medico} <br />
+                                    <strong>Especialidad:</strong> {appointment.especialidad} <br />
+                                    <strong>Sede:</strong> Teleconsulta <br />
+                                    <strong>Tipo:</strong> {appointment.tipoSeguro || 'No especificado'} <br />
+                                    <strong>Fecha:</strong> {new Date(appointment.fecha).toLocaleDateString()} <br />
+                                    <strong>Hora:</strong> {appointment.hora} <br />
+                                    <strong>Estado:</strong> {appointment.estado} <br />
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
             </div>
         </div>
     );
+    
 };
 
 export default DashboardUsuario;

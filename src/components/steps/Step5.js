@@ -43,14 +43,14 @@ const Step5 = ({
             return;
         }
     
-        // Asegúrate de usar el ID del doctor
+        // Configurar los datos de la cita
         const citaData = {
             pacienteId,
-            doctorId: doctorSeleccionado.id, // Extraer solo el ID del doctor
+            doctorId: doctorSeleccionado.id,
             fecha: fechaSeleccionada,
             hora: horaSeleccionada,
             especialidad,
-            sede,
+            sede: metodoPago === 'teleconsulta' ? null : sede, // Si es teleconsulta, sede será null
             tipoSeguro,
             metodoPago,
         };
@@ -80,11 +80,15 @@ const Step5 = ({
         }
     };
     
-
-    const handlePayNow = () => guardarCita('pago_online');
+    // Manejo de botones para diferentes métodos de pago
+    // Manejo de botones para diferentes métodos de pago
+    const handlePayNow = () => {
+        const metodoPago = sede === 'Teleconsulta' || !sede ? 'teleconsulta' : 'pago_online';
+        guardarCita(metodoPago);
+    };
 
     const handlePayLater = () => guardarCita('pago_dia_cita');
-
+    
     return (
         <div className="step5-container">
             <h2>Información de Pago</h2>

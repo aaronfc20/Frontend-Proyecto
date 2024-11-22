@@ -196,3 +196,65 @@
 .appointment-summary strong {
     color: #333;
 }
+
+/* Containers for appointments */
+#dashboard-container .appointments-wrapper {
+    display: flex;
+    justify-content: space-between; /* Asegura que estén separadas */
+    gap: 20px; /* Espacio entre tablas */
+    align-items: flex-start;
+}
+
+#dashboard-container .appointments-column {
+    flex: 1; /* Permite que ambas tablas tengan el mismo ancho */
+    max-width: 48%; /* Asegura un margen cómodo */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f5f5f5;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+#dashboard-container .appointments-column h3 {
+    font-size: 24px;
+    color: #4A2C7D;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#dashboard-container .appointments-column ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#dashboard-container .appointments-column li {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+#dashboard-container .appointments-column li:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s;
+}
+
+/* Títulos de las tablas fuera del contenedor */
+.appointments-titles {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 0 50px;
+}
+
+.appointments-title {
+    font-size: 24px;
+    color: #4A2C7D;
+    font-weight: bold;
+    text-align: center;
+    width: 48%;
+}

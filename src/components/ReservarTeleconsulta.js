@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-
-import Step1 from './steps/Step1';
 import Step2 from './steps/Step2';
 import Step3 from './steps/Step3';
 import Step4 from './steps/Step4';
 import Step5 from './steps/Step5';
 
-import './reservarcitapresencial.css';
+import './reservarteleconsulta.css';
 
-const ReservarCitaPresencial = () => {
-    const [currentStep, setCurrentStep] = useState(0);
+const ReservarTeleconsulta = () => {
+    const [currentStep, setCurrentStep] = useState(1); // Inicia en el paso 2
     const [userData, setUserData] = useState({
         nombre: '',
         apellidoPaterno: '',
@@ -17,9 +15,8 @@ const ReservarCitaPresencial = () => {
         fechaNacimiento: '',
         peso: 'No especificado',
         altura: 'No especificado',
-        tipoSangre: 'No especificado'
+        tipoSangre: 'No especificado',
     });
-    const [sede, setSede] = useState('');
     const [especialidad, setEspecialidad] = useState('');
     const [doctor, setDoctor] = useState('');
     const [fecha, setFecha] = useState('');
@@ -29,10 +26,9 @@ const ReservarCitaPresencial = () => {
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
-        console.log('Datos cargados en ReservarCitaPresencial:', user); // Debug para verificar
         if (user) {
             setUserData({
-                nombre: user.nombres || 'No especificado', // Cambiar a `nombres`
+                nombre: user.nombres || 'No especificado',
                 apellidoPaterno: user.apellidoPaterno || 'No especificado',
                 genero: user.genero || 'No especificado',
                 fechaNacimiento: user.fechaNacimiento || '',
@@ -42,46 +38,34 @@ const ReservarCitaPresencial = () => {
             });
         }
     }, []);
-    
-    
-    
 
     const handleNextStep = () => setCurrentStep((prevStep) => prevStep + 1);
-
     const handlePrevStep = () => setCurrentStep((prevStep) => prevStep - 1);
 
     const handleFinish = () => {
-        alert('Gracias, cita reservada.');
+        alert('Gracias, teleconsulta reservada.');
         window.location.href = '/';
     };
 
     return (
-        <div className="reservar-cita-container">
-            {currentStep === 0 && (
-                <Step1
-                    nombre={userData.nombre}
-                    apellidoPaterno={userData.apellidoPaterno}
-                    setSede={setSede}
-                />
-            )}
+        <div className="reservar-teleconsulta-container">
             {currentStep === 1 && (
                 <Step2
                     nombre={userData.nombre}
                     apellidoPaterno={userData.apellidoPaterno}
-                    sede={sede}
                     setEspecialidad={setEspecialidad}
                     setModoAtencion={setModoAtencion}
                     setTipoSeguro={setTipoSeguro}
+                    isTeleconsulta={true} // Teleconsulta
                 />
             )}
             {currentStep === 2 && (
                 <Step3
-                    sede={sede}
                     especialidad={especialidad}
                     setDoctor={setDoctor}
                     setFecha={setFecha}
                     setHora={setHora}
-                    tipoCita="presencial"
+                    tipoCita="teleconsulta"
                 />
             )}
             {currentStep === 3 && (
@@ -92,8 +76,8 @@ const ReservarCitaPresencial = () => {
                     nombre={userData.nombre}
                     apellidoPaterno={userData.apellidoPaterno}
                     especialidad={especialidad}
-                    sede={sede}
                     tipoSeguro={tipoSeguro}
+                    isTeleconsulta={true} // Teleconsulta
                 />
             )}
             {currentStep === 4 && (
@@ -104,25 +88,24 @@ const ReservarCitaPresencial = () => {
                     nombre={userData.nombre}
                     apellidoPaterno={userData.apellidoPaterno}
                     especialidad={especialidad}
-                    sede={sede}
                     tipoSeguro={tipoSeguro}
                     handleFinish={handleFinish}
                 />
             )}
             <div className="step-buttons">
-                {currentStep > 0 && (
-                <button onClick={handlePrevStep} className="btn-prev">
-                Anterior
-                </button>
-            )}
+                {currentStep > 1 && (
+                    <button onClick={handlePrevStep} className="btn-prev">
+                        Anterior
+                    </button>
+                )}
                 {currentStep < 4 && (
-                <button onClick={handleNextStep} className="btn-next">
-                Siguiente
-                </button>
-            )}
-                </div>
+                    <button onClick={handleNextStep} className="btn-next">
+                        Siguiente
+                    </button>
+                )}
+            </div>
         </div>
     );
 };
 
-export default ReservarCitaPresencial;
+export default ReservarTeleconsulta;

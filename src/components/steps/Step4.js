@@ -10,6 +10,7 @@ const Step4 = ({
     especialidad,
     sede,
     tipoSeguro,
+    isTeleconsulta, // Nueva propiedad para identificar si es teleconsulta
 }) => {
     // Formatear fecha seleccionada
     const formattedFecha = fechaSeleccionada
@@ -24,7 +25,8 @@ const Step4 = ({
     return (
         <div className="step4-container">
             <h2 className="step4-title">
-                Resumen de la Cita - {nombre} {apellidoPaterno} - {sede || 'No seleccionada'}
+                Resumen de la Cita - {nombre} {apellidoPaterno} -{' '}
+                {isTeleconsulta ? 'Teleconsulta' : sede || 'No seleccionada'}
             </h2>
             <p className="step4-description">
                 Revisa los detalles de tu cita antes de confirmarla.
@@ -38,7 +40,7 @@ const Step4 = ({
                     </tr>
                     <tr>
                         <th>Sede</th>
-                        <td>{sede || 'No seleccionada'}</td>
+                        <td>{isTeleconsulta ? 'Teleconsulta' : sede || 'No seleccionada'}</td>
                     </tr>
                     <tr>
                         <th>Fecha de la cita</th>
@@ -63,5 +65,3 @@ const Step4 = ({
 };
 
 export default Step4;
-
-
