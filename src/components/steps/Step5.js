@@ -43,9 +43,10 @@ const Step5 = ({
             return;
         }
     
+        // Asegúrate de usar el ID del doctor
         const citaData = {
             pacienteId,
-            doctorId: doctorSeleccionado, // Asegúrate de que doctorSeleccionado sea el ID correcto del doctor
+            doctorId: doctorSeleccionado.id, // Extraer solo el ID del doctor
             fecha: fechaSeleccionada,
             hora: horaSeleccionada,
             especialidad,
@@ -53,6 +54,8 @@ const Step5 = ({
             tipoSeguro,
             metodoPago,
         };
+    
+        console.log('Datos enviados al backend:', citaData);
     
         try {
             const response = await fetch('http://localhost:3001/citas/registrar', {
@@ -65,7 +68,7 @@ const Step5 = ({
     
             if (response.ok) {
                 alert('¡Cita guardada exitosamente!');
-                handleFinish(); // Redirige o finaliza el proceso
+                handleFinish(); // Finalizar o redirigir según el flujo
             } else {
                 const errorData = await response.json();
                 console.error('Error al guardar la cita:', errorData);
@@ -76,6 +79,7 @@ const Step5 = ({
             alert('No se pudo conectar con el servidor. Por favor, revisa tu conexión.');
         }
     };
+    
 
     const handlePayNow = () => guardarCita('pago_online');
 
@@ -150,6 +154,7 @@ const Step5 = ({
                 </button>
             </div>
         </div>
+        
     );
 };
 

@@ -184,3 +184,15 @@
 #dashboard-container .appointments-section li:hover {
     transform: scale(1.02);
 }
+
+.appointment-summary {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.appointment-summary strong {
+    color: #333;
+}

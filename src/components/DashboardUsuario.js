@@ -12,9 +12,9 @@ const DashboardUsuario = () => {
         altura: 'No especificado',
         tipoSangre: 'No especificado'
     });
-    const [isEditing, setIsEditing] = useState(false); 
-    const [tipIndex, setTipIndex] = useState(0); 
-    const [appointments, setAppointments] = useState([]); 
+    const [isEditing, setIsEditing] = useState(false);
+    const [tipIndex, setTipIndex] = useState(0);
+    const [appointments, setAppointments] = useState([]);
     const navigate = useNavigate();
 
     const healthTips = [
@@ -29,28 +29,24 @@ const DashboardUsuario = () => {
         if (isEditing) {
             const updatedUserData = {
                 ...userData,
-                nombres: userData.nombre || 'No especificado', // Guardar como `nombres` en localStorage
+                nombres: userData.nombre || 'No especificado',
             };
-    
+
             localStorage.setItem('user', JSON.stringify(updatedUserData));
-            console.log('Guardado en localStorage:', updatedUserData); // Debug para verificar
             alert('Datos guardados exitosamente');
         }
         setIsEditing(!isEditing);
     };
-    
+
     const handleChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     };
-    
-    
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
-        console.log('Datos cargados desde localStorage:', user); // Debug para verificar los datos
         if (user) {
             setUserData({
-                nombre: user.nombres || 'No especificado', // Cambiar a `nombres`
+                nombre: user.nombres || 'No especificado',
                 apellidoPaterno: user.apellidoPaterno || 'No especificado',
                 genero: user.genero || 'No especificado',
                 fechaNacimiento: user.fechaNacimiento || '',
@@ -59,7 +55,7 @@ const DashboardUsuario = () => {
                 tipoSangre: user.tipoSangre || 'No especificado',
             });
         }
-    }, []);;
+    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -72,12 +68,40 @@ const DashboardUsuario = () => {
         if (!fechaNacimiento) return 'No especificada';
         const birthDate = new Date(fechaNacimiento);
         const ageDifMs = Date.now() - birthDate.getTime();
-        const ageDate = new Date(ageDifMs); 
+        const ageDate = new Date(ageDifMs);
         return Math.abs(ageDate.getUTCFullYear() - 1970);
     };
 
-    
-    
+    useEffect(() => {
+        const fetchAppointments = async () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.id) {
+                console.error('No se encontró un usuario válido en localStorage.');
+                return;
+            }
+        
+            try {
+                const response = await fetch(`http://localhost:3001/citas/usuario/${user.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+        
+                if (response.ok) {
+                    setAppointments(data);
+                } else {
+                    console.error('Error al obtener las citas:', data.message);
+                }
+            } catch (error) {
+                console.error('Error de conexión:', error);
+            }
+        };
+        
+
+        fetchAppointments();
+    }, []);
 
     return (
         <div id="dashboard-container">
@@ -187,10 +211,12 @@ const DashboardUsuario = () => {
                 ) : (
                     <ul>
                         {appointments.map((appointment, index) => (
-                            <li key={index}>
-                                <strong>Tipo:</strong> {appointment.tipo} <br />
-                                <strong>Fecha:</strong> {appointment.fecha} <br />
-                                <strong>Hora:</strong> {appointment.hora}
+                            <li key={index} className="appointment-summary">
+                                <strong>Especialidad:</strong> {appointment.especialidad} <br />
+                                <strong>Tipo:</strong> {appointment.tipoSeguro} <br />
+                                <strong>Fecha:</strong> {new Date(appointment.fecha).toLocaleDateString()} <br />
+                                <strong>Hora:</strong> {appointment.hora} <br />
+                                <strong>Estado:</strong> {appointment.estado} <br />
                             </li>
                         ))}
                     </ul>
