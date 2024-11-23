@@ -9,6 +9,7 @@ import EditPatient from './components/editPatient'; // Agregar la importación d
 import ReservarCitaPresencial from './components/ReservarCitaPresencial';
 import ReservarTeleconsulta from './components/ReservarTeleconsulta';
 
+
 function App() {
     return (
         <Router>
@@ -16,8 +17,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/register" element={<Register />} /> {/* Nueva ruta de registro */}
-                    <Route path="/dashboard-usuario" element={<DashboardUsuario />} />
-                    <Route path="/dashboard-doctor/*" element={<DashboardDoctor />} /> {/* El * permite subrutas */}
+                    <Route path="/dashboard-usuario/:role/:userId/*" element={<DashboardUsuario />} />
+                    <Route path="/dashboard-doctor/:role/:userId/*" element={<DashboardDoctor />} /> {/* El * permite subrutas */}
                     <Route path="/search" element={<SearchPatient />} />
                     <Route path="/edit/:id" element={<EditPatient />} />
                     <Route path="/reservar-cita-presencial" element={<ReservarCitaPresencial />} /> {/* Nueva ruta */}

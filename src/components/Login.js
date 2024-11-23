@@ -31,12 +31,14 @@ const Login = () => {
             // Guardar token y datos del usuario completos
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
+            localStorage.setItem('userId', res.data.user.id); // Guardar solo el ID
+            localStorage.setItem('role', res.data.user.role); // Guardar el rol (doctor o user)
     
             // Redireccionar según el rol
             if (res.data.user.role === 'doctor') {
-                window.location.href = '/dashboard-doctor';
+                window.location.href =  `/dashboard-doctor/${res.data.user.role}/${res.data.user.id}`;
             } else {
-                window.location.href = '/dashboard-usuario';
+                window.location.href = `/dashboard-usuario/${res.data.user.role}/${res.data.user.id}`;
             }
         } catch (err) {
             setError('Credenciales inválidas');

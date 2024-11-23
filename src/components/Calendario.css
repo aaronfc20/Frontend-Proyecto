@@ -1,3 +1,4 @@
-@import '@fullcalendar/core/main.css';
-@import '@fullcalendar/daygrid/main.css';
-@import '@fullcalendar/timegrid/main.css';
+/* Cambiar el fondo del calendario */
+.fc {
+    background-color: white !important;
+}

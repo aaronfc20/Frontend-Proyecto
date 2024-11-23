@@ -1,0 +1,12 @@
+/* modal.css */
+.ReactModal__Overlay {
+    background: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+}
+
+.ReactModal__Content {
+    background-color: white; /* Fondo blanco para el modal */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 20px;
+    width: 300px; /* Ancho del modal */
+    height: 250px; /* Alto del modal */
+}
