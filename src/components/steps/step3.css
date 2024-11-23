@@ -1,160 +1,129 @@
-/* Contenedor principal */
-.step3-container {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Títulos y texto principal */
-  h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  p {
-    font-size: 16px;
-    color: #555;
-  }
-  
-  /* Contenedor de los botones para deslizar el calendario */
-  .deslizar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .deslizar-btn {
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .deslizar-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Cuadrante de horarios */
-  .horarios-cuadrante {
-    overflow-x: auto;
-  }
-  
-  .table-auto {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ddd;
-  }
-  
-  th {
-    background-color: #f1f1f1;
-    font-weight: bold;
-  }
-  
-  /* Estilos para los horarios */
-  td {
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  td:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .bg-green-500 {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  .bg-red-500 {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  .text-white {
-    color: white;
-  }
-  
-  .text-center {
-    text-align: center;
-  }
-  
-  /* Estilos para el mensaje de confirmación */
-  .confirmar-mensaje {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .confirmar-mensaje p {
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-  
-  /* Botones de confirmación */
-  .btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 10px;
-  }
-  
-  .btn-success {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  .btn-success:hover {
-    background-color: #218838;
-  }
-  
-  .btn-danger {
-    background-color: #dc3545;
-    color: white;
-  }
-  
-  .btn-danger:hover {
-    background-color: #c82333;
-  }
-  
-  /* Estilos para el select del doctor */
-  select {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-top: 10px;
-    width: 200px;
-  }
-  
-  /* Estilos para las fechas */
-  td {
-    cursor: pointer;
-    padding: 12px;
-    transition: background-color 0.3s ease;
-  }
-  
-  td:hover {
-    background-color: #f0f0f0;
-  }
-  
-  
+/* step3.css */
 
+/* General */
+.step3-container {
+  font-family: 'Roboto', sans-serif;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+/* Estilos del Calendario */
+.react-calendar {
+  border: none;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.react-calendar__tile {
+  font-size: 16px;
+  padding: 15px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* Día actual */
+.react-calendar__tile--now {
+  background-color: #ff6f61;
+  color: white;
+  font-weight: bold;
+}
+
+/* Día seleccionado */
+.react-calendar__tile--active {
+  background-color: #4A2C7D;
+  color: white;
+}
+
+/* Día deshabilitado (fecha ocupada) */
+.react-calendar__tile--disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Efecto hover para días */
+.react-calendar__tile:hover {
+  background-color: #26173f;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Horarios */
+.horarios-container {
+  margin-top: 30px;
+}
+
+.horarios-container h3 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Botones de horarios */
+.horario-btn {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #4A2C7D;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón seleccionado */
+.horario-btn.selected {
+  background-color: #ffc107;
+}
+
+/* Botón deshabilitado */
+.horario-btn.disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+  color: #bbb;
+}
+
+/* Hover para los botones */
+.horario-btn:hover {
+  background-color: #26173f;
+  transform: scale(1.05);
+}
+
+/* Transición para los botones */
+.horario-btn:active {
+  transform: scale(0.98);
+}
+
+/* Estilo de los botones al seleccionarlos */
+.horario-btn.selected:hover {
+  background-color: #ffb300;
+}
+
+/* Mejoras visuales */
+.selected {
+  background-color: #ffc107 !important;
+}

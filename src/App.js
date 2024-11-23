@@ -7,6 +7,7 @@ import Register from './components/Register'; // Asegúrate de importar el compo
 import SearchPatient from './components/SearchPatient'; // Agregar la importación de SearchPatient
 import EditPatient from './components/editPatient'; // Agregar la importación de EditPatient
 import ReservarCitaPresencial from './components/ReservarCitaPresencial';
+import ReservarTeleconsulta from './components/ReservarTeleconsulta';
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/search" element={<SearchPatient />} />
                     <Route path="/edit/:id" element={<EditPatient />} />
                     <Route path="/reservar-cita-presencial" element={<ReservarCitaPresencial />} /> {/* Nueva ruta */}
+                    <Route path="/reservar-teleconsulta" element={<ReservarTeleconsulta />} />
                 </Routes>
             </div>
         </Router>

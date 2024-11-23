@@ -1,168 +1,130 @@
 import React, { useState, useEffect } from 'react';
+import Calendar from 'react-calendar';
 import './step3.css';
 
-const Step3 = ({ nombre, apellidoPaterno, sede, especialidad, citasExistentes, setDoctor, setFecha, setHora }) => {
-    const [fechaSeleccionada, setFechaSeleccionada] = useState(null);
-    const [doctoresDisponibles, setDoctoresDisponibles] = useState([]);
-    const [doctorSeleccionado, setDoctorSeleccionado] = useState(null);
-    const [horariosMarcados, setHorariosMarcados] = useState({});
-    const [fechaActual, setFechaActual] = useState(new Date());
-    const [diasDeslizados, setDiasDeslizados] = useState(0); // Para mover el calendario adelante o atrás
-    const [horarioSeleccionado, setHorarioSeleccionado] = useState(null); // Almacena el horario seleccionado
-    const [confirmarSeleccion, setConfirmarSeleccion] = useState(false); // Muestra el mensaje de confirmación
+const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora, tipoCita }) => {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [doctors, setDoctors] = useState([]);
 
-    const doctores = {
-        "Medicina General": ["Dr. García", "Dr. Pérez"],
-        "Pediatría": ["Dra. Ramírez", "Dr. López"],
-        "Cardiología": ["Dr. Hernández", "Dra. Morales"],
-        "Dermatología": ["Dr. Rivera", "Dra. Torres"],
-        "Neurología": ["Dra. Castillo", "Dr. Vargas"]
-    };
+  const availableTimes = [
+    '08:00', '09:00', '10:00', '11:00', '12:00',
+    '13:00', '14:00', '15:00', '16:00', '17:00',
+  ];
 
-    useEffect(() => {
-        if (especialidad && doctores[especialidad]) {
-            setDoctoresDisponibles(doctores[especialidad]);
-        }
-    }, [especialidad]);
+  // Llamada al backend para obtener los doctores filtrados
+  useEffect(() => {
+    let url = `http://localhost:3001/api/medicos/filtrar?especialidad=${especialidad}`;
+    if (tipoCita === 'presencial') {
+        url += `&sede=${sede}`; // Solo filtrar por sede si es cita presencial
+    }
 
-    // Función para obtener las fechas de los próximos 30 días (solo fechas futuras)
-    const getFechasDeSemana = () => {
-        let fechas = [];
-        let fechaInicioSemana = new Date(fechaActual);
-        fechaInicioSemana.setDate(fechaInicioSemana.getDate() + diasDeslizados); // Ajusta el rango por el desplazamiento
+    console.log('URL generada:', url); // DEBUG: Verifica la URL generada
 
-        for (let i = 0; i < 5; i++) {
-            const fecha = new Date(fechaInicioSemana);
-            fecha.setDate(fecha.getDate() + i);
-            if (fecha >= fechaActual) {
-                fechas.push(fecha.toLocaleDateString('es-PE')); // Formato DD/MM/YYYY
-            }
-        }
-        return fechas;
-    };
+    if (especialidad) {
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Doctores recibidos:', data); // DEBUG: Verifica la respuesta del backend
+                setDoctors(data);
+            })
+            .catch((error) => console.error('Error al cargar doctores:', error));
+    }
+  }, [sede, especialidad, tipoCita]);
 
-    const fechasSemana = getFechasDeSemana();
 
-    const handleFechaChange = (index) => {
-        setFechaSeleccionada(fechasSemana[index]);
-        setFecha(fechasSemana[index]); // Guardar la fecha seleccionada en el estado principal
-    };
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setSelectedTime(null);
+    setFecha(date.toISOString());
+  };
 
-    // Función para manejar la selección y deselección de horarios
-    const handleHorarioSelect = (hora, dia) => {
-        if (isHorarioPasado(hora)) return; // No permitir selección si ya pasó el horario
-        setHorarioSeleccionado({ hora, dia });
-        setConfirmarSeleccion(true); // Mostrar el mensaje de confirmación
-    };
+  const handleTimeSelection = (time) => {
+    setSelectedTime(time);
+    setHora(time);
+  };
 
-    const confirmarHorario = (confirmado) => {
-        if (confirmado) {
-            // Si el usuario confirma, marcar el horario seleccionado
-            const key = `${horarioSeleccionado.dia}_${horarioSeleccionado.hora}`;
-            setHorariosMarcados((prevState) => ({ ...prevState, [key]: true }));
-            setHora(horarioSeleccionado.hora); // Guardar la hora seleccionada
-        } else {
-            // Si el usuario no confirma, desmarcar la selección
-            setHorarioSeleccionado(null);
-        }
-        setConfirmarSeleccion(false); // Ocultar el mensaje de confirmación
-    };
+  const handleDoctorSelection = (doctorId) => {
+    const doctor = doctors.find((doc) => doc.id === parseInt(doctorId, 10));
+    setSelectedDoctor(doctor);
+  };
 
-    // Función para verificar si un horario ya pasó
-    const isHorarioPasado = (hora) => {
-        const [horaPart, minutoPart] = hora.split(':');
-        const ahora = new Date();
-        const horaActual = ahora.getHours();
-        const minutosActuales = ahora.getMinutes();
-
-        if (parseInt(horaPart) < horaActual || (parseInt(horaPart) === horaActual && parseInt(minutoPart) < minutosActuales)) {
-            return true; // Ya pasó la hora
-        }
-        return false; // Aún está disponible
-    };
-
-    const horas = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
-
-    // Desplazar los días hacia adelante o atrás
-    const handleDeslizar = (direccion) => {
-        if (direccion === "izquierda" && diasDeslizados > -30) {
-            setDiasDeslizados(diasDeslizados - 1);
-        }
-        if (direccion === "derecha" && diasDeslizados < 30) {
-            setDiasDeslizados(diasDeslizados + 1);
-        }
-    };
-
-    return (
-        <div className="step3-container">
-            <h2>Reservar Cita - {nombre} {apellidoPaterno} - {sede}</h2>
-            <p>¡Es muy fácil! Puedes reservar tu cita seleccionando la fecha y hora.</p>
-
-            {/* Controles para deslizar el calendario */}
-            <div className="deslizar-container">
-                <button onClick={() => handleDeslizar("izquierda")} className="deslizar-btn">{"<"}</button>
-                <span>Calendario</span>
-                <button onClick={() => handleDeslizar("derecha")} className="deslizar-btn">{">"}</button>
-            </div>
-
-            {/* Cuadrante de Horarios */}
-            <div className="horarios-cuadrante">
-                <table className="table-auto w-full">
-                    <thead>
-                        <tr>
-                            {fechasSemana.map((fecha, index) => (
-                                <th key={index} className="border p-4">{fecha}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {horas.map((hora, index) => (
-                            <tr key={index}>
-                                {fechasSemana.map((fecha, diaIndex) => (
-                                    <td
-                                        key={diaIndex}
-                                        className={`p-3 cursor-pointer border text-center 
-                                            ${horariosMarcados[`${fecha}_${hora}`] ? 'bg-green-500' : ''} 
-                                            ${isHorarioPasado(hora) ? 'bg-red-500 text-white' : ''}
-                                        `}
-                                        onClick={() => handleHorarioSelect(hora, fecha)}
-                                    >
-                                        {hora} 
-                                        {horariosMarcados[`${fecha}_${hora}`] && <span className="text-white">✓</span>}
-                                        {isHorarioPasado(hora) && <span className="text-white">✖</span>}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            {/* Mensaje de Confirmación */}
-            {confirmarSeleccion && (
-                <div className="confirmar-mensaje">
-                    <p>¿Estás seguro de elegir este horario?</p>
-                    <button onClick={() => confirmarHorario(true)} className="btn btn-success">Sí</button>
-                    <button onClick={() => confirmarHorario(false)} className="btn btn-danger">No</button>
-                </div>
-            )}
-
-            {/* Selección de Doctor */}
-            {horarioSeleccionado && (
-                <>
-                    <label>Seleccione un doctor:</label>
-                    <select onChange={(e) => setDoctorSeleccionado(e.target.value)} value={doctorSeleccionado || ''}>
-                        <option value="">Seleccione un doctor</option>
-                        {doctoresDisponibles.map((doctor, index) => (
-                            <option key={index} value={doctor}>{doctor}</option>
-                        ))}
-                    </select>
-                </>
-            )}
-        </div>
+  const handleConfirm = () => {
+    setDoctor(selectedDoctor);
+    alert(
+      `Cita confirmada para el ${selectedDate.toLocaleDateString()} a las ${selectedTime} con el Dr. ${selectedDoctor.nombres} ${selectedDoctor.apellidoPaterno}.`
     );
+  };
+
+  return (
+    <div className="step3-container">
+      <h2>Selecciona tu fecha y hora</h2>
+      <p>Selecciona una fecha para hacer tu reserva:</p>
+
+      <Calendar
+        onChange={handleDateChange}
+        value={selectedDate}
+        minDate={new Date()}
+      />
+
+      {/* Mostrar horarios disponibles */}
+      {selectedDate && (
+        <div className="horarios-container">
+          <h3>Horarios disponibles para {selectedDate.toLocaleDateString()}:</h3>
+          <div className="horarios">
+            {availableTimes.map((time) => (
+              <button
+                key={time}
+                className={`horario-btn ${selectedTime === time ? 'selected' : ''}`}
+                onClick={() => handleTimeSelection(time)}
+              >
+                {time}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Mostrar selección de doctores */}
+      {selectedTime && (
+        <div className="doctors-selection">
+          <h3>Selecciona un doctor para {selectedTime}:</h3>
+          {doctors.length > 0 ? (
+            <select
+              onChange={(e) => handleDoctorSelection(e.target.value)}
+              value={selectedDoctor?.id || ''}
+            >
+              <option value="">Selecciona un doctor</option>
+              {doctors.map((doctor) => (
+                <option key={doctor.id} value={doctor.id}>
+                  {doctor.nombres} {doctor.apellidoPaterno} {doctor.apellidoMaterno}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <p>
+              No hay doctores disponibles para esta especialidad{' '}
+              {tipoCita === 'presencial' ? 'y sede seleccionadas' : 'seleccionada'}.
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Mostrar cuadro de confirmación */}
+      {selectedDoctor && selectedTime && (
+        <div className="confirmation-dialog">
+          <p>
+            ¿Confirmas el horario {selectedTime} con el Dr.{' '}
+            {selectedDoctor.nombres} {selectedDoctor.apellidoPaterno}?
+          </p>
+          <button onClick={handleConfirm} className="confirmation-btn">
+            Confirmar
+          </button>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Step3;
-
-
