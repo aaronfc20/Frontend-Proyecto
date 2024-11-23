@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import './step5.css';
+import EncuestaSatisfaccion from '../EncuestaSatisfaccion';
 
 const Step5 = ({
     nombre,
@@ -22,6 +23,8 @@ const Step5 = ({
     });
 
     const [pacienteId, setPacienteId] = useState(null);
+    const [mostrarEncuesta, setMostrarEncuesta] = useState(false);
+    const [lastCitaId, setLastCitaId] = useState(null);
 
     useEffect(() => {
         // Obtener pacienteId del usuario logueado
@@ -42,21 +45,18 @@ const Step5 = ({
             alert('No se pudo identificar al usuario. Por favor, inicia sesión nuevamente.');
             return;
         }
-    
-        // Configurar los datos de la cita
+
         const citaData = {
             pacienteId,
             doctorId: doctorSeleccionado.id,
             fecha: fechaSeleccionada,
             hora: horaSeleccionada,
             especialidad,
-            sede: metodoPago === 'teleconsulta' ? null : sede, // Si es teleconsulta, sede será null
+            sede: metodoPago === 'teleconsulta' ? null : sede,
             tipoSeguro,
             metodoPago,
         };
-    
-        console.log('Datos enviados al backend:', citaData);
-    
+
         try {
             const response = await fetch('http://localhost:3001/citas/registrar', {
                 method: 'POST',
@@ -65,13 +65,14 @@ const Step5 = ({
                 },
                 body: JSON.stringify(citaData),
             });
-    
+
             if (response.ok) {
+                const data = await response.json(); // Obtén el `citaId` del backend
                 alert('¡Cita guardada exitosamente!');
-                handleFinish(); // Finalizar o redirigir según el flujo
+                setLastCitaId(data.id); // Guarda el ID de la cita creada
+                setMostrarEncuesta(true); // Mostrar la encuesta
             } else {
                 const errorData = await response.json();
-                console.error('Error al guardar la cita:', errorData);
                 alert(`Hubo un problema al guardar la cita: ${errorData.message}`);
             }
         } catch (error) {
@@ -79,16 +80,40 @@ const Step5 = ({
             alert('No se pudo conectar con el servidor. Por favor, revisa tu conexión.');
         }
     };
-    
+
     // Manejo de botones para diferentes métodos de pago
-    // Manejo de botones para diferentes métodos de pago
-    const handlePayNow = () => {
+    const handlePayNow = async () => {
         const metodoPago = sede === 'Teleconsulta' || !sede ? 'teleconsulta' : 'pago_online';
-        guardarCita(metodoPago);
+        await guardarCita(metodoPago);
     };
 
-    const handlePayLater = () => guardarCita('pago_dia_cita');
-    
+    const handlePayLater = async () => {
+        await guardarCita('pago_dia_cita'); // Guardar cita con pago en el día
+    };
+
+    const onSubmitFeedback = async (citaId, feedbackData) => {
+        try {
+            const response = await fetch(`http://localhost:3001/citas/${citaId}/feedback`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(feedbackData),
+            });
+
+            if (response.ok) {
+                alert('¡Gracias por tu feedback!');
+                setMostrarEncuesta(false); // Ocultar la encuesta después de enviar
+            } else {
+                const errorData = await response.json();
+                alert(`Error al enviar el feedback: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error('Error al enviar el feedback:', error);
+            alert('Hubo un problema al enviar el feedback.');
+        }
+    };
+
     return (
         <div className="step5-container">
             <h2>Información de Pago</h2>
@@ -157,8 +182,13 @@ const Step5 = ({
                     Reservar y Pagar el Día de la Cita
                 </button>
             </div>
+            {mostrarEncuesta && lastCitaId && (
+                <EncuestaSatisfaccion
+                    citaId={lastCitaId}
+                    onSubmitFeedback={onSubmitFeedback}
+                />
+            )}
         </div>
-        
     );
 };
 
