@@ -5,6 +5,9 @@ import RegisterPatient from './RegisterPatient';
 import CrearCita from './CrearCita';
 import Notificaciones from './Notificaciones.js'; // Importar las notificaciones
 import Calendario from './calendario/Calendario';
+import MisCitasDoctor from './MisCitasDoctor';
+import NotasRápidas from './NotasRápidas';
+
 
 import './DashboardDoctor.css';
 
@@ -32,15 +35,33 @@ const DashboardDoctor = () => {
                     <NavLink to={`/dashboard-doctor/${role}/${userId}/crear-cita`} className="nav-button" activeClassName="active">
                         Crear Cita Médica
                     </NavLink>
+                    <NavLink to={`/dashboard-doctor/${role}/${userId}/mis-citas`} 
+                        className="nav-button" 
+                        activeClassName="active"
+                    >
+                        Mis Citas
+                    </NavLink>
                     <NavLink to={`/dashboard-doctor/${role}/${userId}/calendario`} className="nav-button" activeClassName="active">
                         Calendario
                     </NavLink>
+
+                    <NavLink
+                                to={`/dashboard-doctor/${role}/${userId}/notas-rapidas`}
+                                className="nav-button"
+                                activeClassName="active"
+                            >
+                                Notas Rápidas
+                            </NavLink>
+
                 </nav>
                 <Routes>
                     <Route path="/search" element={<SearchPatient />} />
                     <Route path="/registrar" element={<RegisterPatient />} />
                     <Route path="/crear-cita" element={<CrearCita />} />
+                    <Route path="/mis-citas" element={<MisCitasDoctor />} />
                     <Route path="/calendario" element={<Calendario />} />
+                    <Route path="/notas-rapidas" element={<NotasRápidas />} />
+
                 </Routes>
             </div>
         </div>

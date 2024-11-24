@@ -8,24 +8,27 @@ import SearchPatient from './components/SearchPatient'; // Agregar la importaci√
 import EditPatient from './components/editPatient'; // Agregar la importaci√≥n de EditPatient
 import ReservarCitaPresencial from './components/ReservarCitaPresencial';
 import ReservarTeleconsulta from './components/ReservarTeleconsulta';
+import { NotasProvider } from './Context/NotasContext';
 
 
 function App() {
     return (
-        <Router>
-            <div className="App">
-                <Routes>
-                    <Route path="/" element={<Login />} />
-                    <Route path="/register" element={<Register />} /> {/* Nueva ruta de registro */}
-                    <Route path="/dashboard-usuario/:role/:userId/*" element={<DashboardUsuario />} />
-                    <Route path="/dashboard-doctor/:role/:userId/*" element={<DashboardDoctor />} /> {/* El * permite subrutas */}
-                    <Route path="/search" element={<SearchPatient />} />
-                    <Route path="/edit/:id" element={<EditPatient />} />
-                    <Route path="/reservar-cita-presencial" element={<ReservarCitaPresencial />} /> {/* Nueva ruta */}
-                    <Route path="/reservar-teleconsulta" element={<ReservarTeleconsulta />} />
-                </Routes>
-            </div>
-        </Router>
+        <NotasProvider>
+            <Router>
+                <div className="App">
+                    <Routes>
+                        <Route path="/" element={<Login />} />
+                        <Route path="/register" element={<Register />} /> {/* Nueva ruta de registro */}
+                        <Route path="/dashboard-usuario/:role/:userId/*" element={<DashboardUsuario />} />
+                        <Route path="/dashboard-doctor/:role/:userId/*" element={<DashboardDoctor />} /> {/* El * permite subrutas */}
+                        <Route path="/search" element={<SearchPatient />} />
+                        <Route path="/edit/:id" element={<EditPatient />} />
+                        <Route path="/reservar-cita-presencial" element={<ReservarCitaPresencial />} /> {/* Nueva ruta */}
+                        <Route path="/reservar-teleconsulta" element={<ReservarTeleconsulta />} />
+                    </Routes>
+                </div>
+            </Router>
+        </NotasProvider>
     );
 }
 
