@@ -51,56 +51,6 @@ const EditPatient = () => {
                 <h2>Editar Información del Paciente</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label>DNI</label>
-                        <input
-                            type="text"
-                            name="dni"
-                            value={formData.dni}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Nombre Completo</label>
-                        <input
-                            type="text"
-                            name="nombreCompleto"
-                            value={formData.nombreCompleto}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Fecha de Nacimiento</label>
-                        <input
-                            type="date"
-                            name="dateOfBirth"
-                            value={formData.dateOfBirth}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Médico de Cabecera</label>
-                        <input
-                            type="text"
-                            name="doctor"
-                            value={formData.doctor}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Especialidad</label>
-                        <input
-                            type="text"
-                            name="specialty"
-                            value={formData.specialty}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="form-group">
                         <label>Diagnóstico</label>
                         <textarea
                             name="diagnosis"

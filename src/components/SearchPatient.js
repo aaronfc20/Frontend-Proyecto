@@ -102,7 +102,6 @@ const SearchPatient = () => {
                         <div key={patient._id}>
                             <p><strong>Nombre Completo:</strong> {patient.nombreCompleto}</p>
                             <p><strong>Fecha de Nacimiento:</strong> {new Date(patient.dateOfBirth).toLocaleDateString()}</p>
-                            <p><strong>Médico:</strong> {patient.doctor}</p>
                             <p><strong>Especialidad:</strong> {patient.specialty}</p>
                             <p><strong>Diagnóstico:</strong> {patient.diagnosis}</p>
                             <p><strong>Tratamiento:</strong> {patient.treatment}</p>
