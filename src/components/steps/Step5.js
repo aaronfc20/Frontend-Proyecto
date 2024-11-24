@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import './step5.css';
-import EncuestaSatisfaccion from '../EncuestaSatisfaccion';
+import EncuestaSatisfaccion from '../EncuestaSatisfaccion.js';
 
 const Step5 = ({
     nombre,

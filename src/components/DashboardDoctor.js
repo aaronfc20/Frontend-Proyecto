@@ -3,8 +3,8 @@ import { Routes, Route, NavLink, useParams, Navigate } from 'react-router-dom';
 import SearchPatient from './SearchPatient';
 import RegisterPatient from './RegisterPatient';
 import CrearCita from './CrearCita';
-import Notificaciones from './Notificaciones'; // Importar las notificaciones
-import Calendario from './Calendario';
+import Notificaciones from './Notificaciones.js'; // Importar las notificaciones
+import Calendario from './calendario/Calendario';
 
 import './DashboardDoctor.css';
 
