@@ -53,16 +53,17 @@ const Calendario = () => {
     };
 
     return (
-        <div>
-            <h1>Calendario de Citas</h1>
-            <FullCalendar
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView="dayGridMonth"
-                events={events}
-                selectable={true}
-                editable={true}
-                eventClick={handleEventClick} // Manejar el clic en un evento
-            />
+        <div className="componente-calendario">
+            <div className="calendar-container">
+                <FullCalendar
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                    initialView="dayGridMonth"
+                    events={events}
+                    selectable={true}
+                    editable={true}
+                    eventClick={handleEventClick} // Manejar el clic en un evento
+                />
+            </div>
 
             {/* Modal de Bootstrap */}
             <Modal show={showModal} onHide={handleCloseModal} centered>

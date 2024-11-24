@@ -1,4 +1,28 @@
 /* Cambiar el fondo del calendario */
 .fc {
     background-color: white !important;
+    font-family: 'Arial', sans-serif; /* Ajusta la fuente del calendario */
+}
+.calendar-container {
+    max-width: 900px; /* Ajusta el ancho máximo */
+    margin: 0 auto; /* Centra el calendario horizontalmente */
+    padding: 20px; /* Añade algo de espacio alrededor */
+    background-color: #ffffff; /* Fondo blanco */
+    border: 1px solid #ddd; /* Añade un borde opcional */
+    border-radius: 16px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para un diseño más atractivo */
+}
+
+.componente-calendario {
+    max-width: 900px; /* Ajusta el ancho máximo */
+    margin: 0 auto; /* Centra el calendario horizontalmente */
+    padding: 20px; /* Añade algo de espacio alrededor */
+}
+
+.fc-toolbar-title {
+    font-size: 1.5em; /* Ajusta el tamaño del título del calendario */
+}
+
+.fc-daygrid-event {
+    font-size: 0.9em; /* Ajusta el tamaño de los textos de los eventos */
 }

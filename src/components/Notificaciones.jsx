@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom'; // Para obtener el userId de la URL
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Notificaciones = () => {
+  const { userId } = useParams(); // Obtener el userId desde la URL
   const [citas, setCitas] = useState([]);
 
   useEffect(() => {
-    // Simulación de obtención de datos desde la base de datos
-    // const fetchCitas = async () => {
-    //   const citasDB = [
-    //     { nombre: 'Juan Pérez', motivo: 'Consulta médica', hora: '2024-10-05T17:42:00' },
-    //     { nombre: 'Ana López', motivo: 'Reunión de trabajo', hora: '2024-10-05T17:43:00' }
-    //   ];
-    //   setCitas(citasDB);
-    // };
-    // Obtener datos de citas desde el backend
+    // Función para obtener las citas del doctor según el userId
     const fetchCitas = async () => {
       try {
-        const response = await fetch('http://localhost:3001/citas'); // Ruta del backend
+        // Cambiar la URL de la API para incluir el userId
+        const response = await fetch(`http://localhost:3001/citas/todas/${userId}`);
+        if (!response.ok) {
+          throw new Error(`Error en la respuesta del servidor: ${response.statusText}`);
+        }
         const data = await response.json();
         setCitas(data);
       } catch (error) {
@@ -25,25 +23,12 @@ const Notificaciones = () => {
       }
     };
 
-    fetchCitas();
-  }, []);
+    // Llamar a la función si userId existe
+    if (userId) {
+      fetchCitas();
+    }
+  }, [userId]);
 
-  // useEffect(() => {
-  //   citas.forEach((cita) => {
-  //     const now = new Date();
-  //     const citaDate = new Date(cita.hora);
-
-  //     // Calculamos el tiempo restante en milisegundos
-  //     const timeToNotification = citaDate.getTime() - now.getTime();
-
-  //     if (timeToNotification > 0) {
-  //       setTimeout(() => {
-  //         // Mostrar notificación
-  //         toast.info(`Tienes una cita para ${cita.motivo} con ${cita.nombre}`);
-  //       }, timeToNotification);
-  //     }
-  //   });
-  // }, [citas]);
   useEffect(() => {
     citas.forEach((cita) => {
       const now = new Date();
@@ -53,14 +38,16 @@ const Notificaciones = () => {
       const timeToNotification = fechaHoraCita.getTime() - now.getTime();
 
       if (timeToNotification > 0) {
+        // Crear una notificación para cada cita en el futuro
         setTimeout(() => {
-          // Mostrar notificación
-          toast.info(`Tienes una cita con el paciente ID ${cita.pacienteId} a las ${cita.hora}`);
+          toast.info(
+            `Tienes una cita con el paciente ID ${cita.pacienteId} el ${cita.fecha} a las ${cita.hora}`
+          );
         }, timeToNotification);
       }
     });
   }, [citas]);
-  
+
   return (
     <div>
       <ToastContainer />
