@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import FullCalendar from '@fullcalendar/react'; // Importa FullCalendar
-import dayGridPlugin from '@fullcalendar/daygrid'; // Vista mensual
-import timeGridPlugin from '@fullcalendar/timegrid'; // Vista semanal/diaria
-import interactionPlugin from '@fullcalendar/interaction'; // Eventos de clic
-import { useParams } from 'react-router-dom'; // Para obtener los parámetros de la URL
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { useParams } from 'react-router-dom';
 import './Calendario.css';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Estilos de Bootstrap
-import { Modal, Button } from 'react-bootstrap'; // Componentes de Bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Modal, Button } from 'react-bootstrap';
 
 const Calendario = () => {
     const { userId } = useParams(); // Obtener el doctorId de la URL
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null); // Estado para el evento seleccionado
     const [showModal, setShowModal] = useState(false); // Estado para mostrar/ocultar el modal
+    const [notifying, setNotifying] = useState(false); // Estado para saber si estamos notificando
 
     // Cargar eventos desde la API con el doctorId
     useEffect(() => {
@@ -41,7 +42,8 @@ const Calendario = () => {
     const handleEventClick = (info) => {
         setSelectedEvent({
             title: info.event.title,
-            start: info.event.start.toISOString()
+            start: info.event.start.toISOString(),
+            id: info.event.id // Asegúrate de tener el ID del evento
         });
         setShowModal(true); // Mostrar el modal
     };
@@ -50,6 +52,31 @@ const Calendario = () => {
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedEvent(null);
+    };
+
+    // Función para notificar al paciente (hacer un fetch al backend)
+    const handleNotifyPatient = () => {
+        if (selectedEvent) {
+            setNotifying(true);
+
+            // Realiza la petición al backend para enviar el correo
+            fetch(`http://localhost:3001/citas/notificar/${selectedEvent.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setNotifying(false);
+                    alert(data.message || 'Correo enviado correctamente');
+                })
+                .catch(error => {
+                    setNotifying(false);
+                    alert('Error al enviar el correo');
+                    console.error('Error al notificar al paciente:', error);
+                });
+        }
     };
 
     return (
@@ -75,6 +102,14 @@ const Calendario = () => {
                         <>
                             <p><strong>Paciente:</strong> {selectedEvent.title}</p>
                             <p><strong>Hora de Inicio:</strong> {new Date(selectedEvent.start).toLocaleTimeString()}</p>
+                            {/* Botón para notificar */}
+                            <Button 
+                                variant="primary" 
+                                onClick={handleNotifyPatient} 
+                                disabled={notifying} // Deshabilitar mientras se notifica
+                            >
+                                {notifying ? 'Notificando...' : 'Notificar al paciente'}
+                            </Button>
                         </>
                     )}
                 </Modal.Body>
