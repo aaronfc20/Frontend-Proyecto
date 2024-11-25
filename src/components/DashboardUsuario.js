@@ -124,6 +124,10 @@ const DashboardUsuario = () => {
                 <button onClick={() => navigate('/reservar-teleconsulta')} className="dashboard-button">
                     Reservar Teleconsulta
                 </button>
+                {/* Nuevo botón para tests psicológicos gratuitos */}
+                <button onClick={() => navigate('/escoger-prueba')} className="dashboard-button">
+                    Tests Psicológicos Gratuitos
+                </button>
             </div>
     
             <div className="content-container">
@@ -249,7 +253,6 @@ const DashboardUsuario = () => {
                                 <li key={index} className="appointment-summary">
                                     <strong>Médico:</strong> {appointment.medico} <br />
                                     <strong>Especialidad:</strong> {appointment.especialidad} <br />
-                                    <strong>Sede:</strong> Teleconsulta <br />
                                     <strong>Tipo:</strong> {appointment.tipoSeguro || 'No especificado'} <br />
                                     <strong>Fecha:</strong> {new Date(appointment.fecha).toLocaleDateString()} <br />
                                     <strong>Hora:</strong> {appointment.hora} <br />
@@ -262,7 +265,6 @@ const DashboardUsuario = () => {
             </div>
         </div>
     );
-    
 };
 
 export default DashboardUsuario;

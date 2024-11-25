@@ -9,8 +9,9 @@ import EditPatient from './components/editPatient'; // Agregar la importación d
 import ReservarCitaPresencial from './components/ReservarCitaPresencial';
 import ReservarTeleconsulta from './components/ReservarTeleconsulta';
 import { NotasProvider } from './Context/NotasContext';
-
-
+import EscogerPrueba from './components/EscogerPrueba';
+import TestDePresion from './components/TestDePresion';
+import Resultados from './components/Resultados';
 function App() {
     return (
         <NotasProvider>
@@ -25,6 +26,9 @@ function App() {
                         <Route path="/edit/:id" element={<EditPatient />} />
                         <Route path="/reservar-cita-presencial" element={<ReservarCitaPresencial />} /> {/* Nueva ruta */}
                         <Route path="/reservar-teleconsulta" element={<ReservarTeleconsulta />} />
+                        <Route path="/escoger-prueba" element={<EscogerPrueba />} />
+                        <Route path="/test-depresion" element={<TestDePresion />} /> {/* Ruta para el test de depresión */}
+                        <Route path="/resultados" element={<Resultados />} />
                     </Routes>
                 </div>
             </Router>
