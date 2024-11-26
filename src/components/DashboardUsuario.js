@@ -233,7 +233,7 @@ const DashboardUsuario = () => {
                                     <strong>Médico:</strong> {appointment.medico} <br />
                                     <strong>Especialidad:</strong> {appointment.especialidad} <br />
                                     <strong>Sede:</strong> {appointment.sede} <br />
-                                    <strong>Tipo:</strong> {appointment.tipoSeguro || 'No especificado'} <br />
+                                    <strong>Tipo:</strong> {appointment.tipoSeguro || 'Particular'} <br />
                                     <strong>Fecha:</strong> {new Date(appointment.fecha).toLocaleDateString()} <br />
                                     <strong>Hora:</strong> {appointment.hora} <br />
                                     <strong>Estado:</strong> {appointment.estado} <br />
@@ -253,7 +253,7 @@ const DashboardUsuario = () => {
                                 <li key={index} className="appointment-summary">
                                     <strong>Médico:</strong> {appointment.medico} <br />
                                     <strong>Especialidad:</strong> {appointment.especialidad} <br />
-                                    <strong>Tipo:</strong> {appointment.tipoSeguro || 'No especificado'} <br />
+                                    <strong>Tipo:</strong> {appointment.tipoSeguro || 'Particular'} <br />
                                     <strong>Fecha:</strong> {new Date(appointment.fecha).toLocaleDateString()} <br />
                                     <strong>Hora:</strong> {appointment.hora} <br />
                                     <strong>Estado:</strong> {appointment.estado} <br />

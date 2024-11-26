@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./TestDepresion.css";
 
 const preguntas = [
   "Durante las últimas dos semanas, ¿con qué frecuencia has tenido poco interés o placer en hacer cosas?",
@@ -40,24 +41,45 @@ function TestDePresion() {
   };
 
   return (
-    <div>
-      <h1>Test de Depresión</h1>
-      <form>
+    <div className="test-container">
+    <h1 className="test-title">Test de Depresión</h1>
+      <form className="test-form">
         {preguntas.map((pregunta, index) => (
-          <div key={index}>
-            <p>{pregunta}</p>
-            <select onChange={(e) => handleRespuestaChange(index, e.target.value)} value={respuestas[index]}>
+          <div key={index} className="test-question-container">
+            <p className="test-question">{pregunta}</p>
+            <select
+              className="test-select"
+              onChange={(e) => handleRespuestaChange(index, e.target.value)}
+              value={respuestas[index]}
+            >
               <option value="Ningún día">Ningún día</option>
               <option value="Varios días">Varios días</option>
-              <option value="Más de la mitad de los días">Más de la mitad de los días</option>
+              <option value="Más de la mitad de los días">
+                Más de la mitad de los días
+              </option>
               <option value="Casi todos los días">Casi todos los días</option>
             </select>
           </div>
         ))}
-        <button type="button" onClick={handleGuardar}>Guardar resultados</button>
-        <button type="button" onClick={handleVerResultados}>Ver resultados</button> {/* Botón para ver resultados */}
+        <div className="test-buttons-container">
+          <button
+            type="button"
+            onClick={handleGuardar}
+            className="test-button"
+          >
+            Guardar resultados
+          </button>
+          <button
+            type="button"
+            onClick={handleVerResultados}
+            className="test-button"
+          >
+            Ver resultados
+          </button>
+        </div>
       </form>
-    </div>
+  </div>
+
   );
 }
 

@@ -56,7 +56,7 @@ const Step4 = ({
                     </tr>
                     <tr>
                         <th>Tipo de Seguro</th>
-                        <td>{tipoSeguro || 'No especificado'}</td>
+                        <td>{tipoSeguro || 'No seleccionada'}</td>
                     </tr>
                 </tbody>
             </table>
