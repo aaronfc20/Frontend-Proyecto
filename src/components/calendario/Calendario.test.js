@@ -38,7 +38,7 @@ describe('Calendario Component', () => {
         );
     });
 
-    it('should render calendar and load events', async () => {
+    it('Debe renderizar el canlendario y eventos', async () => {
         render(
             <Router>
                 <Calendario />
@@ -56,7 +56,7 @@ describe('Calendario Component', () => {
         });
     });
 
-    it('should display modal with event details when event is clicked', async () => {
+    it('Debe mostrar el modal con los detalles del evento cuando este es clickeado', async () => {
         render(
             <Router>
                 <Calendario />
@@ -75,41 +75,49 @@ describe('Calendario Component', () => {
         });
     });
 
-    it('should notify patient when notify button is clicked', async () => {
-        fetch.mockImplementationOnce(() =>
-            Promise.resolve({
-                json: () => Promise.resolve({ message: 'Correo enviado correctamente' }),
-            })
-        );
+   it('Debe notificar al paciente cuando el boton de notificacion es clikeado', async () => {
+    fetch.mockImplementationOnce(() =>
+        Promise.resolve({
+            json: () => Promise.resolve(mockEvents),
+        })
+    );
 
-        render(
-            <Router>
-                <Calendario />
-            </Router>
-        );
+    fetch.mockImplementationOnce(() =>
+        Promise.resolve({
+            json: () => Promise.resolve({ message: 'Correo enviado correctamente' }),
+        })
+    );
 
-        // Cargar evento y simular clic
-        const eventElement = await waitFor(() => {
-          expect(screen.getByText('Juan Pérez')).toBeInTheDocument()});
-        fireEvent.click(eventElement);
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-        // Simular clic en el botón de notificar
-        const notifyButton = screen.getByText('Notificar al paciente');
-        fireEvent.click(notifyButton);
+    render(
+        <Router>
+            <Calendario />
+        </Router>
+    );
 
-        // Verificar que se realizó la solicitud al backend
-        await waitFor(() => expect(fetch).toHaveBeenCalledWith('http://localhost:3001/citas/notificar/123', {
+    // Esperar a que el evento "Juan Pérez" se cargue y sea clickeable
+    const eventElement = await screen.findByText('Juan Pérez');
+    fireEvent.click(eventElement);
+
+    // Esperar a que el modal se abra y el botón "Notificar al paciente" esté disponible
+    const notifyButton = await screen.findByText('Notificar al paciente');
+    fireEvent.click(notifyButton);
+
+    // Verificar que se realizó la solicitud al backend
+    await waitFor(() =>
+        expect(fetch).toHaveBeenCalledWith('http://localhost:3001/citas/notificar/1', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-        }));
+        })
+    );
 
-        // Verificar que se muestra el mensaje de éxito
-        await waitFor(() => {
-            expect(screen.getByText('Correo enviado correctamente')).toBeInTheDocument();
-        });
-    });
+     // Verificar que `alert` fue llamado con el mensaje correcto
+     expect(alertMock).toHaveBeenCalledWith('Correo enviado correctamente');
+     alertMock.mockRestore(); // Restaurar la función original
+});
 
     it('should show alert if no events are available', async () => {
         fetch.mockImplementationOnce(() =>
