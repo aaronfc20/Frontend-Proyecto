@@ -119,7 +119,7 @@ describe('Calendario Component', () => {
      alertMock.mockRestore(); // Restaurar la función original
 });
 
-    it('should show alert if no events are available', async () => {
+    it('Mostrar una alerta si no hay citas disponibles', async () => {
         fetch.mockImplementationOnce(() =>
             Promise.resolve({
                 json: () => Promise.resolve([]), // Sin eventos
