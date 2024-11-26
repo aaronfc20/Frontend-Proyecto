@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import './step5.css';
-import EncuestaSatisfaccion from '../EncuestaSatisfaccion.js';
+import EncuestaSatisfaccion from '../EncuestaSatisfaccion';
 
 const Step5 = ({
     nombre,
@@ -69,7 +69,8 @@ const Step5 = ({
             if (response.ok) {
                 const data = await response.json(); // Obtén el `citaId` del backend
                 alert('¡Cita guardada exitosamente!');
-                setLastCitaId(data.id); // Guarda el ID de la cita creada
+                setLastCitaId(data.cita.id); // Guarda el ID de la cita creada
+                console.log('Cita registrada, mostrando encuesta:', data.cita.id);
                 setMostrarEncuesta(true); // Mostrar la encuesta
             } else {
                 const errorData = await response.json();
