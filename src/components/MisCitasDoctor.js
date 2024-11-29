@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './MisCitasDoctor.css'; 
+import { motion } from 'framer-motion';
 
 const MisCitasDoctor = () => {
     const { userId } = useParams();
@@ -31,7 +32,12 @@ const MisCitasDoctor = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="citas-container">
+        <motion.div 
+            className="citas-container"
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+        >
             <h2>Mis Citas</h2>
             {citas.length > 0 ? (
                 <div className="citas-list">
@@ -46,7 +52,7 @@ const MisCitasDoctor = () => {
             ) : (
                 <p>No tienes citas asignadas.</p>
             )}
-        </div>
+        </motion.div>
     );
 };
 

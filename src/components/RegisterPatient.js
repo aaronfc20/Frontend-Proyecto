@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RegisterPatient.css'; // Importa el archivo CSS
+import { motion } from 'framer-motion';
 
 const RegisterPatient = () => {
     const [formData, setFormData] = useState({
@@ -39,7 +40,12 @@ const RegisterPatient = () => {
     
 
     return (
-        <div className="form-container">
+        <motion.div 
+            className="form-container"
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+        >
             <h2 className="register-title">Registrar Paciente</h2>
             <form onSubmit={handleSubmit}>
                 <div className="register-form-group">
@@ -125,7 +131,7 @@ const RegisterPatient = () => {
                 </div>
                 <button type="submit" className="register-button">Registrar</button>
             </form>
-        </div>
+        </motion.div>
     );
 };
 

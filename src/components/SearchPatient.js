@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
 import './SearchPatient.css';  
+import { motion } from 'framer-motion';
+
 
 const SearchPatient = () => {
     const [nombreCompleto, setNombreCompleto] = useState('');
@@ -59,7 +61,12 @@ const SearchPatient = () => {
     };
 
     return (
-        <div className="search-container">
+        <motion.div 
+            className="search-container"
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+        >
             <h2 className="search-title">Buscar Paciente</h2>
             <form onSubmit={handleSearch}>
                 <div className="search-form-group">
@@ -114,7 +121,7 @@ const SearchPatient = () => {
                     ))}
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 };
 

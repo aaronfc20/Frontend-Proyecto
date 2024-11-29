@@ -8,6 +8,9 @@ import './Calendario.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 
+import { motion } from 'framer-motion';
+
+
 const Calendario = () => {
     const { userId } = useParams(); // Obtener el doctorId de la URL
     const [events, setEvents] = useState([]);
@@ -80,7 +83,12 @@ const Calendario = () => {
     };
 
     return (
-        <div className="componente-calendario">
+        <motion.div 
+            className="componente-calendario"
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+        >
             <div className="calendar-container">
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -119,7 +127,7 @@ const Calendario = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </motion.div>
     );
 };
 

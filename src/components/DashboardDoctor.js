@@ -1,13 +1,7 @@
 import React from 'react';
-import { Routes, Route, NavLink, useParams, Navigate } from 'react-router-dom';
-import SearchPatient from './SearchPatient';
-import RegisterPatient from './RegisterPatient';
-import CrearCita from './CrearCita';
+import { NavLink, useParams, Navigate } from 'react-router-dom';
 import Notificaciones from './Notificaciones.js'; // Importar las notificaciones
-import Calendario from './calendario/Calendario';
-import MisCitasDoctor from './MisCitasDoctor';
-import NotasRápidas from './NotasRápidas';
-
+import RutasAnimadasDoctor from './AnimacionDashDoctor.js';
 
 import './DashboardDoctor.css';
 
@@ -23,46 +17,67 @@ const DashboardDoctor = () => {
     return (
         <div className="dashboard-doctor-background">
             <div className="dashboard-doctor container">
-                <h1 id='titulo'>Panel de Control - Doctor</h1>
-                <Notificaciones />  
-                <nav className="nav-container">
-                    <NavLink to={`/dashboard-doctor/${role}/${userId}/search`} className="nav-button" activeClassName="active">
-                        Buscar Paciente
-                    </NavLink>
-                    <NavLink to={`/dashboard-doctor/${role}/${userId}/registrar`} className="nav-button" activeClassName="active">
-                        Registrar Paciente
-                    </NavLink>
-                    <NavLink to={`/dashboard-doctor/${role}/${userId}/crear-cita`} className="nav-button" activeClassName="active">
-                        Crear Cita Médica
-                    </NavLink>
-                    <NavLink to={`/dashboard-doctor/${role}/${userId}/mis-citas`} 
-                        className="nav-button" 
-                        activeClassName="active"
-                    >
-                        Mis Citas
-                    </NavLink>
-                    <NavLink to={`/dashboard-doctor/${role}/${userId}/calendario`} className="nav-button" activeClassName="active">
-                        Calendario
-                    </NavLink>
-
-                    <NavLink
+                <h1 id="titulo">Panel de Control - Doctor</h1>
+                <Notificaciones />
+                <nav className="navbar">
+                    <ul className="navbar-list">
+                        <li>
+                            <NavLink
+                                to={`/dashboard-doctor/${role}/${userId}/search`}
+                                className="navbar-link"
+                                activeClassName="active"
+                            >
+                                Buscar Paciente
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={`/dashboard-doctor/${role}/${userId}/registrar`}
+                                className="navbar-link"
+                                activeClassName="active"
+                            >
+                                Registrar Paciente
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={`/dashboard-doctor/${role}/${userId}/crear-cita`}
+                                className="navbar-link"
+                                activeClassName="active"
+                            >
+                                Crear Cita Médica
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={`/dashboard-doctor/${role}/${userId}/mis-citas`}
+                                className="navbar-link"
+                                activeClassName="active"
+                            >
+                                Mis Citas
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to={`/dashboard-doctor/${role}/${userId}/calendario`}
+                                className="navbar-link"
+                                activeClassName="active"
+                            >
+                                Calendario
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
                                 to={`/dashboard-doctor/${role}/${userId}/notas-rapidas`}
-                                className="nav-button"
+                                className="navbar-link"
                                 activeClassName="active"
                             >
                                 Notas Rápidas
                             </NavLink>
-
+                        </li>
+                    </ul>
                 </nav>
-                <Routes>
-                    <Route path="/search" element={<SearchPatient />} />
-                    <Route path="/registrar" element={<RegisterPatient />} />
-                    <Route path="/crear-cita" element={<CrearCita />} />
-                    <Route path="/mis-citas" element={<MisCitasDoctor />} />
-                    <Route path="/calendario" element={<Calendario />} />
-                    <Route path="/notas-rapidas" element={<NotasRápidas />} />
-
-                </Routes>
+                <RutasAnimadasDoctor />
             </div>
         </div>
     );

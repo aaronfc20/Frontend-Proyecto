@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { NotasContext } from '../Context/NotasContext';
 import './NotasRápidas.css';
+import { motion } from 'framer-motion';
 
 const NotasRapidas = () => {
     const { notas, agregarNota, eliminarNota } = useContext(NotasContext);
@@ -22,7 +23,12 @@ const NotasRapidas = () => {
     };
 
     return (
-        <div className="notas-rapidas-container">
+        <motion.div 
+            className="notas-rapidas-container"
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+        >
             <h2>Notas Rápidas</h2>
             <div className="nueva-nota">
                 <textarea
@@ -43,7 +49,7 @@ const NotasRapidas = () => {
             <button className="descargar-button" onClick={descargarNotas}>
                 Descargar Notas
             </button>
-        </div>
+        </motion.div>
     );
 };
 

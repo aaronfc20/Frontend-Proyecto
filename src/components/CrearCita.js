@@ -1,6 +1,8 @@
 import React, { useState } from 'react'; 
 import axios from 'axios'; 
 import './CrearCita.css';  // Estilos específicos para CrearCita
+import { motion } from 'framer-motion';
+
 
 // 1. Importamos React y el hook 'useState', que nos permite gestionar el estado del componente.
 // 2. Importamos 'axios', que se usa para realizar solicitudes HTTP al backend.
@@ -51,7 +53,12 @@ const CrearCita = () => {
 
     // 13. El JSX que renderiza el formulario de creación de citas. Contiene etiquetas HTML con clases CSS para aplicar estilos.
     return (
-        <div className="crear-cita-container">
+        <motion.div 
+            className="crear-cita-container"
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0}}
+        >
             {/* 14. Título del formulario */}
             <h2 className="crear-cita-title">Crear Cita Médica</h2>
 
@@ -111,7 +118,7 @@ const CrearCita = () => {
                 {/* 37. Mensaje que se muestra si hay un mensaje en el estado 'message' */}
                 {message && <p className="crear-cita-message">{message}</p>}
             </form>
-        </div>
+        </motion.div>
     );
 };
 
