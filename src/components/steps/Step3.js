@@ -89,9 +89,10 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora, tipoCita }) =
       {/* Mostrar selección de doctores */}
       {selectedTime && (
         <div className="doctors-selection">
-          <h3>Selecciona un doctor para {selectedTime}:</h3>
+          <h3 className="selection-title">Selecciona un doctor para {selectedTime}:</h3>
           {doctors.length > 0 ? (
             <select
+              className="doctor-select"
               onChange={(e) => handleDoctorSelection(e.target.value)}
               value={selectedDoctor?.id || ''}
             >
@@ -103,7 +104,7 @@ const Step3 = ({ sede, especialidad, setDoctor, setFecha, setHora, tipoCita }) =
               ))}
             </select>
           ) : (
-            <p>
+            <p className="no-doctors-message">
               No hay doctores disponibles para esta especialidad{' '}
               {tipoCita === 'presencial' ? 'y sede seleccionadas' : 'seleccionada'}.
             </p>

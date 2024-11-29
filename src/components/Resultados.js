@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 import axios from "axios";
-
+import "./resultados.css"; // Archivo CSS para estilos
 
 function Resultados() {
   const [tests, setTests] = useState([]);
-
 
   useEffect(() => {
     axios
@@ -17,19 +16,22 @@ function Resultados() {
       });
   }, []);
 
-
   return (
-    <div>
-      <h1>Resultados del Test de Depresión</h1>
+    <div className="resultados-container">
+      <h1 className="resultados-title">Resultados del Test de Depresión</h1>
      
-      <h2>Detalles de los Tests</h2>
+      <h2 className="resultados-subtitle">Detalles de los Tests</h2>
       {tests.length === 0 ? (
-        <p>No se han encontrado resultados.</p>
+        <p className="resultados-empty">No se han encontrado resultados.</p>
       ) : (
         tests.map((test, index) => (
-          <div key={index}>
-            <p><strong>Fecha y Hora:</strong> {new Date(test.fecha).toLocaleString()}</p>
-            <p><strong>Probabilidad de depresión:</strong> {test.probabilidadDepresion}</p>
+          <div key={index} className="resultados-item">
+            <p>
+              <strong>Fecha y Hora:</strong> {new Date(test.fecha).toLocaleString()}
+            </p>
+            <p>
+              <strong>Probabilidad de depresión:</strong> {test.probabilidadDepresion}
+            </p>
           </div>
         ))
       )}
@@ -37,10 +39,4 @@ function Resultados() {
   );
 }
 
-
 export default Resultados;
-
-
-
-
-
